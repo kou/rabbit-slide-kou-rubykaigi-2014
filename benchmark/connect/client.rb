@@ -8,7 +8,7 @@ require "thread"
 options = OpenStruct.new
 options.host = "127.0.0.1"
 options.port = 2929
-options.n_requests  = 30000
+options.n_requests  = 10000
 options.concurrency =  1000
 parser = OptionParser.new
 parser.on("--host=HOST",

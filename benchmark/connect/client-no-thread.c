@@ -10,7 +10,7 @@
 
 static gchar *host = "127.0.0.1";
 static gchar *port = "2929";
-static gint n_requests = 30000;
+static gint n_requests = 10000;
 
 static GOptionEntry entries[] =
 {
