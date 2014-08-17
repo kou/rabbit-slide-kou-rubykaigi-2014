@@ -3,4 +3,5 @@
 /pdf/
 /benchmark/connect/client-goroutine
 /benchmark/connect/client-thread
+/benchmark/connect/server-thread
 /benchmark/connect/node_modules/
