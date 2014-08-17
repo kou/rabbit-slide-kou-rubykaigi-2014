@@ -1,5 +1,5 @@
 /.tmp/
 /pkg/
 /pdf/
-/benchmark/concurrency/client
-/benchmark/concurrency/node_modules/
+/benchmark/connect/client
+/benchmark/connect/node_modules/
