@@ -9,7 +9,7 @@
 #include <glib.h>
 
 static gchar *host = "127.0.0.1";
-static gchar *port = "2929";
+static gchar *port = "12929";
 static gint n_requests = 30000;
 static gint n_workers  =  1000;
 

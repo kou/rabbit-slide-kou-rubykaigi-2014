@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <glib.h>
 
-static gchar *port = "2929";
+static gchar *port = "12929";
 static gint n_workers  =  1000;
 
 static GOptionEntry entries[] =

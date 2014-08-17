@@ -5,7 +5,7 @@ require "ostruct"
 require "coolio"
 
 options = OpenStruct.new
-options.port = 2929
+options.port = 12929
 parser = OptionParser.new
 parser.on("--port=PORT", Integer,
           "(#{options.port})") do |port|
