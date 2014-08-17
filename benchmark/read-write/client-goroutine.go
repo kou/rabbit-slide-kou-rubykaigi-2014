@@ -15,6 +15,18 @@ func Worker(jobs chan int, waitGroup *sync.WaitGroup, id int, address string) {
 			fmt.Printf("%d: %d: dial error: %s\n", id, job, err)
 			return
 		}
+		var message = []byte{'w'}
+		_, err = conn.Write(message)
+		if err != nil {
+			fmt.Printf("%d: %d: write error: %s\n", id, job, err)
+			return
+		}
+		buffer := make([]byte, 1)
+		_, err = conn.Read(buffer)
+		if err != nil {
+			fmt.Printf("%d: %d: read error: %s\n", id, job, err)
+			return
+		}
 		err = conn.Close()
 		if err != nil {
 			fmt.Printf("%d: %d: close error: %s\n", id, job, err)

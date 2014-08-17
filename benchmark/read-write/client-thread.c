@@ -41,7 +41,31 @@ worker(gpointer data, gpointer user_data)
                      address->ai_protocol);
   if (socket_fd == -1) {
     perror("failed to socket()");
-  } else {
+    goto exit;
+  }
+
+  if (connect(socket_fd,
+              address->ai_addr,
+              address->ai_addrlen) == -1) {
+    perror("failed to connect()");
+    goto exit;
+  }
+
+  if (write(socket_fd, "x", 1) == -1) {
+    perror("failed to write()");
+    goto exit;
+  }
+
+  {
+    char buffer[1];
+    if (read(socket_fd, buffer, 1) == -1) {
+      perror("failed to read()");
+      goto exit;
+    }
+  }
+
+exit:
+  if (socket_fd > 0) {
     close(socket_fd);
   }
 }

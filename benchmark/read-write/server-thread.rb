@@ -16,6 +16,8 @@ parser.parse!
 server = TCPServer.new(options.port)
 loop do
   Thread.new(server.accept) do |client|
+    data = client.read(1)
+    client.write(data)
     client.close
   end
 end

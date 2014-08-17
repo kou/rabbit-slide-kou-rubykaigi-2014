@@ -15,12 +15,7 @@ parser.parse!
 
 loop = Coolio::Loop.default
 server = Coolio::TCPServer.new(nil, options.port) do |client|
-  client.on_read do |data|
-    write(data)
-  end
-  client.on_write_complete do
-    close
-  end
+  client.close
 end
 loop.attach(server)
 

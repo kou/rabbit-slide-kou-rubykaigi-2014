@@ -5,3 +5,7 @@
 /benchmark/connect/client-thread
 /benchmark/connect/server-thread
 /benchmark/connect/node_modules/
+/benchmark/read-write/client-goroutine
+/benchmark/read-write/client-thread
+/benchmark/read-write/server-thread
+/benchmark/read-write/node_modules/

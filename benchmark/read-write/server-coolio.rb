@@ -2,7 +2,7 @@
 
 require "optparse"
 require "ostruct"
-require "socket"
+require "coolio"
 
 options = OpenStruct.new
 options.port = 2929
@@ -13,9 +13,15 @@ parser.on("--port=PORT", Integer,
 end
 parser.parse!
 
-server = TCPServer.new(options.port)
-loop do
-  Thread.new(server.accept) do |client|
-    client.close
+loop = Coolio::Loop.default
+server = Coolio::TCPServer.new(nil, options.port) do |client|
+  client.on_read do |data|
+    write(data)
+  end
+  client.on_write_complete do
+    close
   end
 end
+loop.attach(server)
+
+loop.run

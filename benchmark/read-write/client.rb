@@ -36,6 +36,8 @@ workers = options.concurrency.times.collect do
       message = messages.pop
       break if message.nil?
       client = TCPSocket.new(options.host, options.port)
+      client.write(message)
+      client.read(1)
       client.close
     end
   end

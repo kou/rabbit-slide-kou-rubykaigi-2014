@@ -25,8 +25,11 @@ function runWorker() {
   };
   var client = net.connect(connectOptions,
 			   function() {
-			     client.end();
+			     client.write("x");
 			   });
+  client.on("data", function(data) {
+    client.end();
+  });
   client.on("end", function() {
     nRestRequests--;
     if (nRestRequests > 0) {

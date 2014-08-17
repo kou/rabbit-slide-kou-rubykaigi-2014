@@ -24,6 +24,19 @@ worker(gpointer data, gpointer user_data)
 {
   int *client_socket_fd = data;
 
+  {
+    char buffer[1];
+    if (read(*client_socket_fd, buffer, 1) == -1) {
+      perror("failed to read()");
+      goto exit;
+    }
+    if (write(*client_socket_fd, buffer, 1) == -1) {
+      perror("failed to write()");
+      goto exit;
+    }
+  }
+
+exit:
   close(*client_socket_fd);
   g_free(client_socket_fd);
 }
