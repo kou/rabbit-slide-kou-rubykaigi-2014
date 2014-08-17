@@ -1,5 +1,6 @@
 /.tmp/
 /pkg/
 /pdf/
-/benchmark/connect/client
+/benchmark/connect/client-goroutine
+/benchmark/connect/client-thread
 /benchmark/connect/node_modules/
