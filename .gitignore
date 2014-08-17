@@ -2,7 +2,9 @@
 /pkg/
 /pdf/
 /benchmark/connect/client-goroutine
+/benchmark/connect/client-no-goroutine
 /benchmark/connect/client-thread
+/benchmark/connect/client-no-thread
 /benchmark/connect/server-thread
 /benchmark/connect/node_modules/
 /benchmark/read-write/client-goroutine
