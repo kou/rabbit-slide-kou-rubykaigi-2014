@@ -19,6 +19,7 @@ var nRestWorkers = options.concurrency;
 var startTime = null;
 
 function runWorker() {
+  nRestRequests--;
   var connectOptions = {
     host: options.host,
     port: options.port
@@ -28,7 +29,6 @@ function runWorker() {
 			     client.end();
 			   });
   client.on("end", function() {
-    nRestRequests--;
     if (nRestRequests > 0) {
       runWorker();
     } else {
