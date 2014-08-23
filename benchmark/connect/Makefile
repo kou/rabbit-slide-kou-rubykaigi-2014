@@ -4,7 +4,8 @@ PROGRAMS =					\
 	client-no-goroutine			\
 	client-thread				\
 	client-no-thread			\
-	server-thread
+	server-thread				\
+	server-no-thread
 
 all: $(PROGRAMS)
 
@@ -25,6 +26,9 @@ client-no-thread: client-no-thread.c
 
 server-thread: server-thread.c
 	cc -Wall -g3 $$(pkg-config --cflags --libs gthread-2.0) -o $@ $<
+
+server-no-thread: server-no-thread.c
+	cc -Wall -g3 $$(pkg-config --cflags --libs glib-2.0) -o $@ $<
 
 clean:
 	rm -f $(PROGRAMS)
