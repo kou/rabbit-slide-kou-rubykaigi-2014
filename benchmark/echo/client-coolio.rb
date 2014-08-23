@@ -62,7 +62,7 @@ n_rest_requests = options.n_requests
 options.concurrency.times.each do
   on_finished = lambda do
     n_rest_requests -= 1
-    connect(loop, options, &on_finished) if n_rest_requests > 0
+    connect(loop, options, &on_finished) if n_rest_requests >= 0
   end
   connect(loop, options, &on_finished)
 end
