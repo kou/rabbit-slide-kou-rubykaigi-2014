@@ -9,14 +9,15 @@
 #include <sys/epoll.h>
 #include <glib.h>
 #include <json-glib/json-glib.h>
+#include <msgpack.h>
 
 static gchar *port = "22929";
-static gboolean parse_json = FALSE;
+static gboolean parse_data = FALSE;
 
 static GOptionEntry entries[] =
 {
   {"port", 0, 0, G_OPTION_ARG_STRING, &port, "Port to connect", "PORT"},
-  {"parse-json", 0, 0, G_OPTION_ARG_NONE, &parse_json, "Parse JSON", NULL},
+  {"parse-data", 0, 0, G_OPTION_ARG_NONE, &parse_data, "Parse data", NULL},
   {NULL}
 };
 
@@ -86,13 +87,23 @@ receive_message(Session *session)
     return stop_session(session);
   }
 
-  if (parse_json) {
-    JsonParser *parser;
-    parser = json_parser_new();
-    json_parser_load_from_data(parser,
-                               session->message, session->message_size,
-                               NULL);
-    g_object_unref(parser);
+  if (parse_data) {
+    if (session->message[0] == '{') {
+      JsonParser *parser;
+      parser = json_parser_new();
+      json_parser_load_from_data(parser,
+                                 session->message, session->message_size,
+                                 NULL);
+      g_object_unref(parser);
+    } else {
+      msgpack_unpacked unpacked;
+      size_t offset;
+      msgpack_unpacked_init(&unpacked);
+      msgpack_unpack_next(&unpacked,
+                          session->message, session->message_size,
+                          &offset);
+      msgpack_unpacked_destroy(&unpacked);
+    }
   }
 
   {
