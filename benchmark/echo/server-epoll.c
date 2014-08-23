@@ -25,7 +25,7 @@ typedef struct {
   int epoll_fd;
 } Context;
 
-#define MESSAGE_SIZE 4096
+#define MESSAGE_SIZE 8192
 typedef struct {
   int socket_fd;
   gchar message[MESSAGE_SIZE];
