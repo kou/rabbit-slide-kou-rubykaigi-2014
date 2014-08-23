@@ -10,8 +10,8 @@ intOption = function(newValue, oldValue) {
 options
   .option("--host <host>", "Host to connect", "127.0.0.1")
   .option("--port <port>", "Port number", intOption, 12929)
-  .option("--n-requests <n>", "The number of requests.", 10000)
-  .option("--concurrency <n>", "The number of workers",   1000)
+  .option("--n-requests <n>", "The number of requests.", 2000)
+  .option("--concurrency <n>", "The number of workers",  1000)
   .parse(process.argv);
 
 var nRestRequests = options.nRequests;
