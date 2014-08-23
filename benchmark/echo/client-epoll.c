@@ -147,6 +147,7 @@ receive_message(Session *session)
     return TRUE;
   } else {
     Context *context = session->context;
+    g_free(session);
     if (context->n_rest_requests > 0) {
       return start_session(context);
     } else {
