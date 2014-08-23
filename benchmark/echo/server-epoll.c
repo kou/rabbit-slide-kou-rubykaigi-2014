@@ -8,12 +8,15 @@
 #include <unistd.h>
 #include <sys/epoll.h>
 #include <glib.h>
+#include <json-glib/json-glib.h>
 
 static gchar *port = "22929";
+static gboolean parse_json = FALSE;
 
 static GOptionEntry entries[] =
 {
   {"port", 0, 0, G_OPTION_ARG_STRING, &port, "Port to connect", "PORT"},
+  {"parse-json", 0, 0, G_OPTION_ARG_NONE, &parse_json, "Parse JSON", NULL},
   {NULL}
 };
 
@@ -81,6 +84,15 @@ receive_message(Session *session)
 
   if (session->message_size == 0) {
     return stop_session(session);
+  }
+
+  if (parse_json) {
+    JsonParser *parser;
+    parser = json_parser_new();
+    json_parser_load_from_data(parser,
+                               session->message, session->message_size,
+                               NULL);
+    g_object_unref(parser);
   }
 
   {

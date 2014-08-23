@@ -17,10 +17,14 @@ client-thread: client-thread.c
 	cc -Wall -g3 $$(pkg-config --cflags --libs gthread-2.0) -o $@ $<
 
 server-epoll: server-epoll.c
-	cc -Wall -g3 $$(pkg-config --cflags --libs gthread-2.0) -o $@ $<
+	cc -Wall -g3 \
+	  $$(pkg-config --cflags --libs gthread-2.0 json-glib-1.0) \
+	  -o $@ $<
 
 server-thread: server-thread.c
-	cc -Wall -g3 $$(pkg-config --cflags --libs gthread-2.0) -o $@ $<
+	cc -Wall -g3 \
+	  $$(pkg-config --cflags --libs gthread-2.0 json-glib-1.0) \
+	  -o $@ $<
 
 clean:
 	rm -f $(PROGRAMS)

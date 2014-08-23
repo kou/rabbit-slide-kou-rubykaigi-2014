@@ -7,15 +7,18 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <glib.h>
+#include <json-glib/json-glib.h>
 
 static gchar *port = "22929";
-static gint n_workers = 8;
+static gint n_workers = 100;
+static gboolean parse_json = FALSE;
 
 static GOptionEntry entries[] =
 {
   {"port", 0, 0, G_OPTION_ARG_STRING, &port, "Port to connect", "PORT"},
   {"concurrency", 0, 0, G_OPTION_ARG_INT, &n_workers,
    "The number of workers", "N"},
+  {"parse-json", 0, 0, G_OPTION_ARG_NONE, &parse_json, "Parse JSON", NULL},
   {NULL}
 };
 
@@ -36,6 +39,12 @@ worker(gpointer data, gpointer user_data)
     }
     if (read_size == 0) {
       goto exit;
+    }
+    if (parse_json) {
+      JsonParser *parser;
+      parser = json_parser_new();
+      json_parser_load_from_data(parser, buffer, read_size, NULL);
+      g_object_unref(parser);
     }
     if (write(*client_socket_fd, buffer, read_size) == -1) {
       perror("failed to write()");
