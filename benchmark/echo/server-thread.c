@@ -34,6 +34,9 @@ worker(gpointer data, gpointer user_data)
       perror("failed to read()");
       goto exit;
     }
+    if (read_size == 0) {
+      goto exit;
+    }
     if (write(*client_socket_fd, buffer, read_size) == -1) {
       perror("failed to write()");
       goto exit;
