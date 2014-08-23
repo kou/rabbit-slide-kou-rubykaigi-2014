@@ -1,4 +1,5 @@
 PROGRAMS =					\
+	bench-epoll				\
 	client-goroutine			\
 	client-epoll				\
 	client-thread				\
@@ -6,6 +7,9 @@ PROGRAMS =					\
 	server-thread
 
 all: $(PROGRAMS)
+
+bench-epoll: bench-epoll.c
+	cc -Wall -g3 $$(pkg-config --cflags --libs gthread-2.0) -o $@ $<
 
 client-goroutine: client-goroutine.go
 	go build $<

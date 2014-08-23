@@ -12,6 +12,7 @@
 /benchmark/read-write/server-thread
 /benchmark/read-write/node_modules/
 /benchmark/echo/large-message.json
+/benchmark/echo/bench-epoll
 /benchmark/echo/client-goroutine
 /benchmark/echo/client-epoll
 /benchmark/echo/client-thread
