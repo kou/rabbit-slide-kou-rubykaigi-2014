@@ -14,5 +14,6 @@
 /benchmark/echo/client-goroutine
 /benchmark/echo/client-epoll
 /benchmark/echo/client-thread
+/benchmark/echo/server-epoll
 /benchmark/echo/server-thread
 /benchmark/echo/node_modules/
