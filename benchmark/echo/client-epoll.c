@@ -44,6 +44,8 @@ typedef struct {
 typedef struct {
   int socket_fd;
   gint n_rest_messages;
+  gsize sent_message_size;
+  gsize received_message_size;
   Context *context;
 } Session;
 
@@ -78,6 +80,8 @@ start_session(Context *context)
     session = g_new(Session, 1);
     session->socket_fd = socket_fd;
     session->n_rest_messages = n_messages;
+    session->sent_message_size = 0;
+    session->received_message_size = 0;
     session->context = context;
     context->n_running_sessions++;
 
@@ -102,9 +106,10 @@ send_message(Session *session)
       perror("failed to write()");
       return FALSE;
     }
+    session->sent_message_size += written_size;
   }
 
-  {
+  if (session->sent_message_size == message_size) {
     Context *context = session->context;
     int socket_fd = session->socket_fd;
     struct epoll_event event;
@@ -115,6 +120,7 @@ send_message(Session *session)
       perror("failed to epoll_ctl(EPOLL_CTL_MOD(EPOLLIN))");
       return FALSE;
     }
+    session->received_message_size = 0;
   }
 
   return TRUE;
@@ -125,12 +131,17 @@ receive_message(Session *session)
 {
   {
     size_t read_size;
-    char buffer[4096];
+    char buffer[8192];
     read_size = read(session->socket_fd, buffer, sizeof(buffer));
     if (read_size == -1) {
       perror("failed to read()");
       return FALSE;
     }
+    session->received_message_size += read_size;
+  }
+
+  if (session->received_message_size < message_size) {
+    return TRUE;
   }
 
   session->n_rest_messages--;
@@ -145,7 +156,7 @@ receive_message(Session *session)
       perror("failed to epoll_ctl(EPOLL_CTL_MOD(EPOLLOUT))");
       return FALSE;
     }
-    return TRUE;
+    session->sent_message_size = 0;
   } else {
     Context *context = session->context;
     close(session->socket_fd);
@@ -154,10 +165,10 @@ receive_message(Session *session)
     context->n_running_sessions--;
     if (context->n_rest_requests > 0) {
       return start_session(context);
-    } else {
-      return TRUE;
     }
   }
+
+  return TRUE;
 }
 
 int

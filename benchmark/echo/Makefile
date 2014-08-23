@@ -28,5 +28,10 @@ server-thread: server-thread.c
 	  -lmsgpack \
 	  -o $@ $<
 
+large-message.json: message.json
+	ruby -r json \
+	  -e 'puts JSON.pretty_generate({"messages" => [JSON.parse(ARGF.read)] * 20000})' \
+	  $< > $@
+
 clean:
 	rm -f $(PROGRAMS)
