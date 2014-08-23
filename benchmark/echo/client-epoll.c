@@ -165,7 +165,6 @@ int
 main(int argc, char **argv)
 {
   Context context;
-  context.n_rest_requests = n_requests;
   context.n_running_sessions = 0;
 
   {
@@ -181,6 +180,7 @@ main(int argc, char **argv)
       return EXIT_FAILURE;
     }
     g_option_context_free(context);
+    context.n_rest_requests = n_requests;
   }
 
   {
