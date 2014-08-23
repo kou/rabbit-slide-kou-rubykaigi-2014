@@ -1,6 +1,7 @@
 /.tmp/
 /pkg/
 /pdf/
+/benchmark/connect/bench-epoll
 /benchmark/connect/client-goroutine
 /benchmark/connect/client-no-goroutine
 /benchmark/connect/client-thread
