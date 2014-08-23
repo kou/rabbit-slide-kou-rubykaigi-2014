@@ -38,6 +38,7 @@ static GOptionEntry entries[] =
 typedef struct {
   int epoll_fd;
   gint n_rest_requests;
+  gint n_running_sessions;
   struct addrinfo *addresses;
 } Context;
 
@@ -79,6 +80,7 @@ start_session(Context *context)
     session->socket_fd = socket_fd;
     session->n_rest_messages = n_messages;
     session->context = context;
+    context->n_running_sessions++;
 
     event.events = EPOLLOUT;
     event.data.ptr = session;
@@ -150,6 +152,7 @@ receive_message(Session *session)
     close(session->socket_fd);
     epoll_ctl(context->epoll_fd, EPOLL_CTL_DEL, session->socket_fd, NULL);
     g_free(session);
+    context->n_running_sessions--;
     if (context->n_rest_requests > 0) {
       return start_session(context);
     } else {
@@ -163,6 +166,7 @@ main(int argc, char **argv)
 {
   Context context;
   context.n_rest_requests = n_requests;
+  context.n_running_sessions = 0;
 
   {
     GOptionContext *context;
@@ -218,7 +222,7 @@ main(int argc, char **argv)
         }
       }
 
-      while (context.n_rest_requests > 0) {
+      while (context.n_running_sessions > 0) {
         int i, n_events;
 
         n_events = epoll_wait(context.epoll_fd, events, MAX_EVENTS, -1);
