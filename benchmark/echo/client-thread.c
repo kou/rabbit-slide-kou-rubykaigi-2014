@@ -17,8 +17,8 @@ static gchar message[] =
 
 static gchar *host = "127.0.0.1";
 static gchar *port = "22929";
-static gint n_requests = 5000;
-static gint n_workers  = 1000;
+static gint n_requests = 1000;
+static gint n_workers  =  500;
 static gint n_messages =  100;
 
 static GOptionEntry entries[] =

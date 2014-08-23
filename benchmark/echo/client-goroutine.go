@@ -54,8 +54,8 @@ func FormatElapsedTimeNano(elapsedTimeNano float64) string {
 func main() {
 	host := flag.String("host", "127.0.0.1", "Host to connect")
 	port := flag.Int("port", 22929, "Port to connect")
-	nRequests := flag.Int("n-requests", 5000, "The number of requests")
-	concurrency := flag.Int("concurrency", 1000, "The number of workers")
+	nRequests := flag.Int("n-requests", 1000, "The number of requests")
+	concurrency := flag.Int("concurrency", 500, "The number of workers")
 	nMessages := flag.Int("n-messages", 100,
 		"The number of messages in a session")
 	flag.Parse()

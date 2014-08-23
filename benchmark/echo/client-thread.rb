@@ -16,8 +16,8 @@ MESSAGE
 options = OpenStruct.new
 options.host = "127.0.0.1"
 options.port = 22929
-options.n_requests  = 5000
-options.concurrency = 1000
+options.n_requests  = 1000
+options.concurrency =  500
 options.n_messages  =  100
 parser = OptionParser.new
 parser.on("--host=HOST",

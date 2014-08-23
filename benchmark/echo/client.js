@@ -10,8 +10,8 @@ intOption = function(newValue, oldValue) {
 options
   .option("--host <host>", "Host to connect", "127.0.0.1")
   .option("--port <port>", "Port number", intOption, 22929)
-  .option("--n-requests <n>", "The number of requests.",             5000)
-  .option("--concurrency <n>", "The number of workers",              1000)
+  .option("--n-requests <n>", "The number of requests.",             1000)
+  .option("--concurrency <n>", "The number of workers",               500)
   .option("--n-messages <n>", "The number of messages in a session",  100)
   .parse(process.argv);
 
