@@ -147,6 +147,8 @@ receive_message(Session *session)
     return TRUE;
   } else {
     Context *context = session->context;
+    close(session->socket_fd);
+    epoll_ctl(context->epoll_fd, EPOLL_CTL_DEL, session->socket_fd, NULL);
     g_free(session);
     if (context->n_rest_requests > 0) {
       return start_session(context);
