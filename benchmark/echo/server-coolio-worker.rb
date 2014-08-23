@@ -86,6 +86,7 @@ end
 trap(:INT) do
   workers.each do |worker|
     worker[:notify_pipe].write("close")
+    worker[:notify_pipe].flush
   end
 end
 
