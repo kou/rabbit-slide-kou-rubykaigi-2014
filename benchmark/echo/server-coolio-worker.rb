@@ -44,7 +44,13 @@ options.concurrency.times do
     Process.setsid
     loop = Coolio::Loop.default
 
+    clients = []
     server = Coolio::TCPServer.new(raw_server) do |client|
+      clients << client
+      client.on_close do
+        clients.delete(client)
+      end
+
       client.on_read do |data|
         if options.parse_data
           if data[0] == "{"
@@ -69,6 +75,9 @@ options.concurrency.times do
     notify_write.close
     notify_io = Coolio::IO.new(notify_read)
     notify_io.on_read do
+      clients.each do |client|
+        client.close
+      end
       server.close
       close
     end
