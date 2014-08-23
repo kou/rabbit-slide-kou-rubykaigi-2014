@@ -9,12 +9,9 @@
 #include <sys/epoll.h>
 #include <glib.h>
 
-static gchar message[] =
-  "{\n"
-  "  \"name\": \"Alice\",\n"
-  "  \"nick\": \"alice\",\n"
-  "  \"age\": 14\n"
-  "}\n";
+static gchar *message = NULL;
+static gsize message_size = 0;
+static gchar *message_path = "message.json";
 
 static gchar *host = "127.0.0.1";
 static gchar *port = "22929";
@@ -26,6 +23,8 @@ static GOptionEntry entries[] =
 {
   {"host", 0, 0, G_OPTION_ARG_STRING, &host, "Host to connect", "HOST"},
   {"port", 0, 0, G_OPTION_ARG_STRING, &port, "Port to connect", "PORT"},
+  {"message-path", 0, 0, G_OPTION_ARG_STRING, &message_path,
+   "The path that has message", "PATH"},
   {"n-requests", 0, 0, G_OPTION_ARG_INT, &n_requests,
    "The number of requests", "N"},
   {"concurrency", 0, 0, G_OPTION_ARG_INT, &max_concurrent_connections,
@@ -98,7 +97,7 @@ send_message(Session *session)
 {
   {
     size_t written_size;
-    written_size = write(session->socket_fd, message, sizeof(message) - 1);
+    written_size = write(session->socket_fd, message, message_size);
     if (written_size == -1) {
       perror("failed to write()");
       return FALSE;
@@ -182,6 +181,16 @@ main(int argc, char **argv)
     g_option_context_free(context);
   }
   context.n_rest_requests = n_requests;
+
+  {
+    GError *error = NULL;
+    g_file_get_contents(message_path, &message, &message_size, &error);
+    if (error) {
+      g_print("failed to load message: <%s>\n", error->message);
+      g_error_free(error);
+      return EXIT_FAILURE;
+    }
+  }
 
   {
     struct addrinfo hints;
