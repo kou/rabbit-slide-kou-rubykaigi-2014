@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <fcntl.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <sys/epoll.h>
@@ -40,6 +41,7 @@ typedef struct {
 
 typedef struct {
   int socket_fd;
+  gboolean connected;
   gsize sent_message_size;
   gsize received_message_size;
   Context *context;
@@ -66,7 +68,7 @@ report_statistic(Context *context)
 }
 
 static gboolean
-start_session(Context *context)
+try_connect(Context *context)
 {
   struct addrinfo *address = context->addresses;
   int socket_fd = 0;
@@ -79,12 +81,40 @@ start_session(Context *context)
     return FALSE;
   }
 
+  if (fcntl(socket_fd, F_SETFL, O_NONBLOCK) == -1) {
+    perror("failed to fcntl(F_SETFL, O_NONBLOCK)");
+    close(socket_fd);
+    return FALSE;
+  }
+
   if (connect(socket_fd,
               address->ai_addr,
               address->ai_addrlen) == -1) {
-    perror("failed to connect()");
-    close(socket_fd);
-    return FALSE;
+    if (errno == EINPROGRESS) {
+      struct epoll_event event;
+      Session *session;
+
+      session = g_new(Session, 1);
+      session->socket_fd = socket_fd;
+      session->connected = FALSE;
+      session->sent_message_size = 0;
+      session->received_message_size = 0;
+      session->context = context;
+
+      event.events = EPOLLOUT;
+      event.data.ptr = session;
+      if (epoll_ctl(context->epoll_fd, EPOLL_CTL_ADD, socket_fd, &event) == -1) {
+        perror("failed to epoll_ctl(EPOLL_CTL_ADD, socket_fd)");
+        close(socket_fd);
+        return FALSE;
+      }
+
+      return TRUE;
+    } else {
+      perror("failed to connect()");
+      close(socket_fd);
+      return FALSE;
+    }
   }
 
   {
@@ -93,6 +123,7 @@ start_session(Context *context)
 
     session = g_new(Session, 1);
     session->socket_fd = socket_fd;
+    session->connected = TRUE;
     session->sent_message_size = 0;
     session->received_message_size = 0;
     session->context = context;
@@ -109,20 +140,48 @@ start_session(Context *context)
 }
 
 static gboolean
+connect_again(Session *session)
+{
+  Context *context = session->context;
+  struct addrinfo *address = context->addresses;
+  int socket_fd = session->socket_fd;
+
+  if (connect(socket_fd,
+              address->ai_addr,
+              address->ai_addrlen) == -1) {
+    perror("failed to connect() again");
+    close(socket_fd);
+    g_free(session);
+    return FALSE;
+  }
+
+  {
+    struct epoll_event event;
+
+    session->connected = TRUE;
+    event.events = EPOLLIN | EPOLLPRI | EPOLLOUT;
+    event.data.ptr = session;
+    if (epoll_ctl(context->epoll_fd, EPOLL_CTL_MOD, socket_fd, &event) == -1) {
+      perror("failed to epoll_ctl(EPOLL_CTL_MOD, connected socket_fd)");
+      close(socket_fd);
+      g_free(session);
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+static gboolean
 send_message(Session *session)
 {
   Context *context = session->context;
 
   {
     size_t written_size;
-    size_t write_size;
-    write_size = context->message->len - session->sent_message_size;
-    if (write_size > CHUNK_SIZE) {
-      write_size = CHUNK_SIZE;
-    }
     written_size = write(session->socket_fd,
                          context->message->str + session->sent_message_size,
-                         write_size);
+                         context->message->len - session->sent_message_size);
     if (written_size == -1) {
       perror("failed to write()");
       return FALSE;
@@ -193,7 +252,7 @@ main(int argc, char **argv)
     GOptionContext *context;
     GError *error = NULL;
 
-    context = g_option_context_new("client side implementation by thread");
+    context = g_option_context_new("benchmark implementation by epoll");
     g_option_context_add_main_entries(context, entries, NULL);
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
       g_print("failed to parse options: %s\n", error->message);
@@ -273,7 +332,7 @@ main(int argc, char **argv)
     }
 
     for (i = 0; i < n_concurrent_connections; i++) {
-      if (!start_session(&context)) {
+      if (!try_connect(&context)) {
         return EXIT_FAILURE;
       }
     }
@@ -302,6 +361,14 @@ main(int argc, char **argv)
 
         {
           Session *session = event->data.ptr;
+          if (event->events & EPOLLOUT && !session->connected) {
+            if (connect_again(session)) {
+              continue;
+            } else {
+              return EXIT_FAILURE;
+            }
+          }
+
           if (event->events & (EPOLLIN | EPOLLPRI)) {
             if (!receive_message(session)) {
               return EXIT_FAILURE;
