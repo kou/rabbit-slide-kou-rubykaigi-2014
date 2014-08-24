@@ -1,7 +1,7 @@
 = Three Ruby usages
 
-# : subtitle
-#    SUBTITLE
+: subtitle
+   Inside Droonga
 : author
    Kouhei Sutou
 : institution
@@ -17,8 +17,130 @@
 
 = Table of contents
 
-  * Share this talk's goal
+  * Share ↓ of this talk
+    * The target Rubyists
+    * The goal
 
-= Share the goal
+= Target Rubyists
 
-  * ((*Share this talk's goal*))
+  * Who use only Ruby
+  * Who can't use Ruby yet
+
+= Goal
+
+  * Target Rubyists know options for...
+    * when they use Ruby
+    * where they use Ruby
+    * how they use Ruby
+
+= Key idea: trade-off
+
+  * What you can drop
+  * What you can't drop
+
+= Three Ruby usages
+
+  * High-level interface
+  * Glue
+  * Embed
+
+= Sample application
+
+Droonga
+
+  * Distributed full-text search engine
+  * Requirements
+    * Scalable
+    * Fast
+    * Easy to operate
+
+= Components
+
+  * Service API
+  * Messaging system
+  * Node management
+  * Full-text search engine
+
+= Service API
+
+  * For using Droonga over network
+  * Requirements
+    * Scalable
+    * Extensible
+    * Fast
+
+= Messaging system
+
+  * For processing a task by nodes
+  * Requirements
+    * Scalable
+    * Extensible
+    * Fast
+
+= Full-text search engine
+
+  * For core feature
+  * Requirements
+    * Fast
+
+= Architecture
+
+  * Distributed system is complex
+    * Internode communication
+  * Similar software exists
+    * Make Droonga workable
+      even if it has only 60% features.
+
+= Distributed system
+
+  * Complex
+    * Networking
+    * Messaging system
+    * Node management
+  * Many CPU cores
+
+= Using Ruby
+
+  * Pros
+    * Fast development
+    * Flexible/Extensible system
+  * Cons
+    * Low performance rather than compile type languages such as C
+
+= Trade-off
+
+Think about:
+
+  * Are pros needed?
+  * Are cons acceptable?
+
+= Pros
+
+  * Fast development
+    * Need: Similar software exists
+  * Flexible/Extensible system
+    * Nice to have
+
+= Cons
+
+  * Low performance per node
+    * Acceptable if it is resolved by multiple CPU cores
+      because Droonga assumes that Droonga cluster has many CPU cores
+    * Not CPU things: I/O, Network, ...
+
+= How slow?
+
+Measure!\n
+(('note:Because we are programmer'))\n
+(('note:We should act based on fact rather than anticipation'))\n
+
+= Where measure?
+
+  * Components
+    * Networking
+    * Messaging system
+    * Node management
+
+= Networking
+
+  * xxx
