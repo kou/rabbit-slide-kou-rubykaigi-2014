@@ -31,7 +31,7 @@ close_client = lambda do |client|
 end
 
 loop do
-  readables, writables, errors = IO.select(readers, writers, clients)
+  readables, writables, exceptions = IO.select(readers, writers, clients)
   readables.each do |readable|
     if readable == server
       client = server.accept
@@ -69,7 +69,7 @@ loop do
     end
   end
 
-  errors.each do |client|
+  exceptions.each do |client|
     close_client.call(client)
   end
 end
