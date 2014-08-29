@@ -15,11 +15,123 @@
 : theme
    clear-code
 
-= Table of contents
+= Summary
 
-  * Share ↓ of this talk
-    * The target Rubyists
-    * The goal
+  * Expand Ruby usable area
+  * Cooperate with other langs
+  * Some patterns for it exist
+
+= Goal
+
+You acquire ability to...
+
+  * use Ruby more areas
+  * stop using Ruby every case
+
+= Key idea: trade-off
+
+  * What you can drop
+  * What you can't drop
+
+= Case study
+
+  # blockquote
+  Implement distributed full-text search engine
+
+(('note:Abbreviation: DFTSE = Distributed Full-Text Search Engine'))
+
+= DFTSE?
+
+  # image
+  # src = images/distributed-full-text-search-engine.svg
+  # relative_width = 80
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= How to implement DFTSE?
+
+  * Where do we use Ruby?
+  * How do we use Ruby?
+  * (('wait'))Where ((*don't*)) we use Ruby?
+
+= Ruby's Pros/Cons
+
+  * Pros
+    * Fun
+    * Rapid development
+  * Cons
+    * Slower (('note:rather than compile style languages'))
+
+= Key idea: trade-off
+
+  * What you can drop
+  * What you can't drop
+
+= Think about slower
+
+  * Acceptable?
+    * Yes with reservations
+  * Reservations
+    * It's fast enough or\n
+      ("can drop" case)
+    * It's not ((*the bottle neck*))\n
+      ("can't drop" case)
+
+= Point 1
+
+Don't use Ruby for speed matter case
+
+= DFTSE components
+
+  * FTSE (('note:(Full-Text Search Engine)'))
+  * Messaging system
+  * Node management
+
+= FTSE
+
+(('note:(Full-Text Search Engine)'))
+
+Speed related items
+
+  * CPU
+  * Memory
+  * I/O
+
+= FTSE - CPU
+
+(('note:(Full-Text Search Engine)'))
+
+Speed related items
+
+  * CPU - Ruby is slow
+  * Memory
+  * I/O
+
+= CPU - Confirm
+
+  * Is Ruby really slow?
+  * Confirm!
+    * We are programmer! :-)
+
+= Tokenize - Bigram
+
+  # coderay ruby
+
+  tokens = []
+  text.each_char.each_cons(2) do |characters|
+    tokens << characters.join("")
+  end
+
+= Tokenize - Result
+
+  * 27KB text (('note:(Wikipedia(ja) - Ruby)'))
+  * Ruby: 0.016s
+  * Go:   0.003s
+
+(('note:https://github.com/kou/rabbit-slide-kou-rubykaigi-2014/tree/master/benchmark/tokenizer/'))
 
 = Target Rubyists
 
@@ -35,14 +147,35 @@
 
 = Key idea: trade-off
 
-  * What you can drop
-  * What you can't drop
 
 = Three Ruby usages
 
-  * High-level interface
   * Glue
   * Embed
+  * High-level interface
+
+= Case study
+
+Create a distributed full-text search engine based on existing
+full-text search engine written by C
+
+= How to use Ruby? (1)
+
+Glue
+
+= Glue
+
+Combining existing features
+
+= Existing features
+
+  * Full-text search
+  * (('del:Messaging system'))
+    * Use Ruby for it?
+  * (('del:Node management'))
+    * Use Ruby for it?
+
+= xxx
 
 = Sample application
 
@@ -144,3 +277,7 @@ Measure!\n
 = Networking
 
   * xxx
+
+= Glue
+
+  * c
