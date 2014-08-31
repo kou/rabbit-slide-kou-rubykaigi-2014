@@ -13,7 +13,7 @@
 : allotted-time
    28m
 : theme
-   clear-code
+   .
 
 = Summary
 
@@ -90,15 +90,129 @@ Don't use Ruby for speed matter case
   * Messaging system
   * Node management
 
-= FTSE
+= FTSE - an impl.
 
-(('note:(Full-Text Search Engine)'))
+  * Groonga
+    * FTSE implemented by C\n
+      (('note:(Full-Text Search Engine)'))
+    * Library and HTTP server
+  * Rroonga
+    * The Ruby bindings of Groonga
+    * Library
 
-Speed related items
+= FTSE - how to use?
 
-  * CPU
-  * Memory
-  * I/O
+Groonga server\n
+vs.\n
+Rroonga
+
+= Client vs. Bindings
+
+  * Ruby for client use
+    * Network overhead
+  * Ruby for bindings use
+    * Value conversion overhead
+
+= Measure
+
+= Point 2 - overhead
+
+Network\n
+>\n
+Bindings
+
+= DFTSE components
+
+  * FTSE (('note:(Full-Text Search Engine)'))
+  * ((*Messaging system*))
+  * Node management
+
+= Messaging system
+
+  * (({messages.each do |message|}))
+    * Parse (({message}))
+    * Compute how to process (({message}))
+    * Dispatch (({message})) to workers
+    * Collect results
+  * (({end}))
+
+= Messaging system - fig.
+
+xxx
+
+= Messaging system
+
+  * Complex
+    * Rapid development is helpful\n
+      (('note:(Ruby is suitable)'))
+  * Scalable (MUST)
+    * Many CPUs are usable
+
+= Scalable\nmessaging system
+
+  * Less messages
+    * Reduce network I/O
+  * Smaller messages
+    * Reduce network I/O
+    * Reduce serialize overhead
+
+= Less messages
+
+  * Measure
+    * Less messages
+    * More messages
+
+= Smaller messages
+
+  * Measure
+    * Small messages
+    * Large messages
+
+= Consider
+
+  * Is Ruby usable for this case?
+    * Rapid development is helpful against complex
+    * Slow?
+
+= Key idea: trade-off
+
+  * What you can drop
+  * What you can't drop
+
+= Think about slower
+
+  * Acceptable?
+    * Yes with reservations
+  * Reservations
+    * It's fast enough or\n
+      ("can drop" case)
+    * It's not ((*the bottle neck*))\n
+      ("can't drop" case)
+
+= Node management
+
+  * FTSE (('note:(Full-Text Search Engine)'))
+  * Messaging system
+  * ((*Node management*))
+
+= Node management
+
+  * Complex
+  * Less CPU
+  * Generic problem
+
+= xxx
+
+= FTSE again
+
+  * ((*FTSE*)) (('note:(Full-Text Search Engine)'))
+  * Messaging system
+  * Node management
+
+= FTSE flexibility
+
+  * Query optimizer
+
 
 = FTSE - CPU
 
