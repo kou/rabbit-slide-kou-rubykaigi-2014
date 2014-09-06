@@ -15,13 +15,26 @@
 : theme
    .
 
-= Ruby is not only for Rails
+= Conclusion by\n3 sentences
 
-= Summary
+= Conclusion1
 
-  * Expand Ruby usable area
-  * Cooperate with other langs
-  * Some patterns for it exist
+Ruby is not\n
+only for\n
+Rails
+
+= Conclusion2
+
+Ruby is not\n
+for\n
+all software
+
+= Conclusion3
+
+Ruby can be\n
+a good part\n
+for\n
+many software
 
 = Goal
 
@@ -29,6 +42,14 @@ You acquire ability to...
 
   * use Ruby more areas
   * stop using Ruby every case
+
+with reasonable reasons
+
+= Goal - In other words
+
+Give you\n
+a basis for\n
+design decision
 
 = Key idea: trade-off
 
@@ -38,7 +59,7 @@ You acquire ability to...
 = Case study
 
   # blockquote
-  Implement distributed full-text search engine
+  Implement distributed full-text search engine with Ruby
 
 (('note:Abbreviation: DFTSE = Distributed Full-Text Search Engine'))
 
@@ -53,6 +74,19 @@ You acquire ability to...
 : enable-title-on-image
    false
 
+= Why do we use DFTSE?
+
+(('note:DFTSE consists of'))\n
+different characteristic components
+
+= DFTSE - Components
+
+  * Full-text search engine\n
+    (('note:(CPU, memory and I/O related operation)'))
+  * Messaging system (('note:(Network operation)'))
+  * Cluster management
+  * Process management (('note:(Multiprocessing)'))
+
 = How to implement DFTSE?
 
   * Where do we use Ruby?
@@ -62,7 +96,7 @@ You acquire ability to...
 = Ruby's Pros/Cons
 
   * Pros
-    * Fun
+    * Fun 😃
     * Rapid development
   * Cons
     * Slower (('note:rather than compile style languages'))
@@ -72,7 +106,7 @@ You acquire ability to...
   * What you can drop
   * What you can't drop
 
-= Think about slower
+= Think about "slower"
 
   * Acceptable?
     * Yes with reservations
@@ -86,36 +120,248 @@ You acquire ability to...
 
 Don't use Ruby for speed matter case
 
-= DFTSE components
+= DFTSE - Components
 
-  * FTSE (('note:(Full-Text Search Engine)'))
-  * Messaging system
-  * Node management
+  * Full-text search engine\n
+    (('note:(CPU, memory and I/O related operation)'))
+  * Messaging system (('note:(Network operation)'))
+  * Cluster management
+  * Process management (('note:(Multiprocessing)'))
 
-= FTSE - an impl.
+= Think about "FTSE"
 
-  * Groonga
-    * FTSE implemented by C\n
-      (('note:(Full-Text Search Engine)'))
-    * Library and HTTP server
-  * Rroonga
-    * The Ruby bindings of Groonga
-    * Library
+Full-text search engine\n
+(('note:(CPU, memory and I/O related operation)'))
 
-= FTSE - how to use?
+= FTSE characteristic
 
-Groonga server\n
+  * ((*CPU, memory*)) (('note:and I/O related'))\n
+    operation
+    * (('note:DB content should be on memory'))
+  * One of core operations\n
+    in DFTSE
+    * FTSE is used many times
+
+= To be faster
+
+  * Less operations
+  * Less memory allocations
+  * Less I/O
+
+(('tag:center'))They depend on algorithm rather than language speed
+
+= Really?
+
+Measure
+
+= Less memory allocations
+
+  * Implement (({cat}))
+  * Parameter
+    * Whether reuse read buffer
+
+= cat - not reuse
+
+  # coderay ruby
+
+  chunk_size = 4096
+  loop do
+    chunk = file.read(chunk_size)
+    break if chunk.nil?
+    print(chunk)
+  end
+
+= cat - reuse
+
+  # coderay ruby
+
+  buffer_size = 4096
+  buffer = ""
+  loop do
+    chunk = file.read(buffer_size, buffer)
+    break if chunk.nil?
+    print(chunk)
+  end
+
+= cat - benchmark
+
+(('tag:center'))Less memory allocations is ((*faster*))
+
+  # RT
+
+  Parameter, Elapsed time
+
+  not reuse, 0.14s
+  reuse,     0.07s
+
+(('tag:center'))(('note:Input size: 200MiB'))
+
+= Less I/O
+
+  * Implement (({cat}))
+  * Parameter
+    * Read buffer size
+
+= cat - C
+
+  # coderay c
+
+  char *buffer;
+  buffer = malloc(buffer_size);
+  while (1) {
+    ssize_t read_size;
+    read_size = read(fd, buffer, buffer_size);
+    if (read_size == 0) {
+      break;
+    }
+    write(STDOUT_FILENO, buffer, read_size);
+  }
+  free(buffer);
+
+= cat - benchmark
+
+(('tag:center'))Ruby/8KiB is faster than C/1KiB
+
+  # RT
+
+  Size, C, Ruby
+
+  1KiB, 0.08s, 0.17s
+  4KiB, 0.04s, 0.07s
+  8KiB, 0.03s, 0.05s
+  16KiB, 0.03s, 0.04s
+
+(('tag:center'))(('note:Input size: 200MiB'))
+
+= Wrap the benchmark up
+
+  * What it is try:
+    * (('del:Less operations'))
+    * Less memory allocations
+    * Less I/O
+    * Algorithm > Language speed
+  * ((*Ruby can be faster*)) than C
+
+= But!
+
+  * Less memory allocations are difficult in Ruby
+  * e.g. Think about string processing such as:\n
+    Extract words in a sentence\n
+    (('note:(FTSE needs many string processing)'))
+
+= Get back to the topic
+
+  * Full-text search engine
+    * ((*CPU, memory*)) (('note:and I/O related')) operation
+    * One of core operations in DFTSE
+    * FTSE is used many times
+  * Can we use Ruby for it?
+
+= FTSE by Ruby
+
+  * Ruby is ((*not*)) suitable\n
+    to implement FTSE
+    * Core FTSE algorithm is stable
+    * C > Ruby with the same algorithm
+
+= FTSE and Ruby
+
+  * Use existing FTSE
+  * Fast FTSE exists: Groonga
+    * FTSE implemented by C
+    * HTTP server and library
+  * We can use it from Ruby
+
+= Groonga and Ruby
+
+  * How to use Groonga?
+    * As HTTP server
+    * As library\n
+      (The Ruby binding is Rroonga)
+  * Which should we choose?
+
+= FTSE - How to use?
+
+HTTP server\n
 vs.\n
-Rroonga
+Library
 
-= Client vs. Bindings
+= Client vs. Binding
 
   * Ruby for client use
     * Network overhead
-  * Ruby for bindings use
+  * Ruby for binding use
     * Value conversion overhead
 
 = Measure
+
+  * Operations
+    * Full-text search
+    * Sort
+    * Drilldown
+
+= HTTP client
+
+  # coderay ruby
+
+  Net::HTTP.start("localhost", 10041) do |http|
+    parameters = {
+      "table"          => "Entries",
+      "match_columns"  => "description",
+      "query"          => "文字列",
+      "sortby"         => "-_score",
+      "limit"          => 10,
+      "output_columns" => "label,version,description",
+      "drilldown"      => "version",
+      "cache"          => "no",
+    }
+    path = "/d/select?#{Rack::Utils.build_query(parameters)}"
+    response = http.get(path)
+    JSON.parse(response.body)
+  end
+
+= Binding
+
+  # coderay ruby
+
+  Groonga::Database.open(ARGV[0])
+  entries = Groonga["Entries"]
+
+  matched_records = entries.select do |record|
+    record.description =~ "文字列"
+  end
+  sorted_records = matched_records.sort([["_score", :desc]], :limit => 10)
+  sorted_records.each do |record|
+    [record.score, record.label, record.version, record.description]
+  end
+  matched_records.group("version").each do |grouped_record|
+    [grouped_record._key, grouped_record.n_sub_records]
+  end
+
+= Benchmark
+
+(('tag:center'))Network overhead is larger
+
+  # RT
+
+  Type, Elapsed time
+
+  HTTP client, 0.21s
+  Binding,     0.07s
+
+(('tag:center'))\n
+(('note:Ruby reference manual in Japanese is used'))\n
+(('note:72632 records, 319MB DB, Run only 1 request'))
+
+= FTSE and Ruby
+
+  * Use Groonga as library
+    * Smaller overhead than client
+  * Note
+    * Concurrency?
+    * Scalable?
+
+= TODO
 
 = Point 2 - overhead
 
