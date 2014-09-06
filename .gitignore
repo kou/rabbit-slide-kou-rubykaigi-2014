@@ -21,3 +21,5 @@
 /benchmark/echo/server-epoll
 /benchmark/echo/server-thread
 /benchmark/echo/node_modules/
+/benchmark/file-io/cat-no-buffer
+/benchmark/file-io/cat-buffer
