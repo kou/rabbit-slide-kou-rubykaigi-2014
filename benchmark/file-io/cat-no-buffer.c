@@ -70,7 +70,7 @@ main(int argc, char **argv)
       close(fd);
     }
 
-    fprintf(stderr, "%fs\n", g_timer_elapsed(timer, NULL));
+    fprintf(stderr, "%f\n", g_timer_elapsed(timer, NULL));
     g_timer_destroy(timer);
   }
 
