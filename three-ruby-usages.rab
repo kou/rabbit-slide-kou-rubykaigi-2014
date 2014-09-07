@@ -33,7 +33,7 @@ all software
 
 Ruby can be\n
 a good part\n
-for\n
+of\n
 many software
 
 = Goal
@@ -51,7 +51,7 @@ Give you\n
 a basis for\n
 design decision
 
-= Key idea: trade-off
+= Key idea: Trade-off
 
   * What you can drop
   * What you can't drop
@@ -87,7 +87,22 @@ different characteristic components
   * Cluster management
   * Process management (('note:(Multiprocessing)'))
 
-= How to implement DFTSE?
+= At this talk
+
+No time\n
+to talk about\n
+all components\n
+😧
+
+= Think about only FTSE
+
+  * ((*Full-text search engine*))\n
+    (('note:(CPU, memory and I/O related operation)'))
+  * Messaging system (('note:(Network operation)'))
+  * Cluster management
+  * Process management (('note:(Multiprocessing)'))
+
+= Ruby for FTSE in DFTSE
 
   * Where do we use Ruby?
   * How do we use Ruby?
@@ -97,11 +112,11 @@ different characteristic components
 
   * Pros
     * Fun 😃
-    * Rapid development
+    * Rapid development (('note:("trial & error"-able)'))
   * Cons
     * Slower (('note:rather than compile style languages'))
 
-= Key idea: trade-off
+= Key idea: Trade-off
 
   * What you can drop
   * What you can't drop
@@ -115,23 +130,6 @@ different characteristic components
       ("can drop" case)
     * It's not ((*the bottle neck*))\n
       ("can't drop" case)
-
-= Point 1
-
-Don't use Ruby for speed matter case
-
-= DFTSE - Components
-
-  * Full-text search engine\n
-    (('note:(CPU, memory and I/O related operation)'))
-  * Messaging system (('note:(Network operation)'))
-  * Cluster management
-  * Process management (('note:(Multiprocessing)'))
-
-= Think about "FTSE"
-
-Full-text search engine\n
-(('note:(CPU, memory and I/O related operation)'))
 
 = FTSE characteristic
 
@@ -160,7 +158,7 @@ Measure
   * Parameter
     * Whether reuse read buffer
 
-= cat - not reuse
+= cat - Not reuse
 
   # coderay ruby
 
@@ -171,7 +169,7 @@ Measure
     print(chunk)
   end
 
-= cat - reuse
+= cat - Reuse
 
   # coderay ruby
 
@@ -183,7 +181,7 @@ Measure
     print(chunk)
   end
 
-= cat - benchmark
+= cat - Benchmark
 
 (('tag:center'))Less memory allocations is ((*faster*))
 
@@ -218,7 +216,7 @@ Measure
   }
   free(buffer);
 
-= cat - benchmark
+= cat - Benchmark
 
 (('tag:center'))Ruby/8KiB is faster than C/1KiB
 
@@ -244,10 +242,22 @@ Measure
 
 = But!
 
-  * Less memory allocations are difficult in Ruby
-  * e.g. Think about string processing such as:\n
-    Extract words in a sentence\n
-    (('note:(FTSE needs many string processing)'))
+  * Ruby isn't suitable for effective string processing
+  * FTSE needs many string processings
+
+= Bigram tokenizer
+
+  * Split each 2 characters with duplication
+
+= Sample
+
+  "Hello"
+
+(('tag:center'))↓ Bigram
+
+  "He" "el" "ll" "lo"
+
+= TODO
 
 = Get back to the topic
 
