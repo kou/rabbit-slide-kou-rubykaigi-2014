@@ -356,10 +356,36 @@ Library
 = FTSE and Ruby
 
   * Use Groonga as library
-    * Smaller overhead than client
+    * Overhead is less than client
   * Note
-    * Concurrency?
-    * Scalable?
+    * How about concurrency?
+    * How about scalability?
+
+= Hint 1 - Concurrency
+
+(('tag:center'))For CPU bound operation
+
+  * Use multiprocessing
+    * Ruby can't use all CPU cores by a process
+    * Check whether library supports multiprocessing\n
+      (('note:(Groonga supports multiprocessing)'))
+
+= Hint 2 - Concurrency
+
+(('tag:center'))For network bound operation
+
+  * Use I/O multiplexing
+    * You can use Cool.io or EventMachine for it\n
+      (('note:(I like Cool.io because I like libev 😃)'))\n
+      (('note:(But I don't like instance_eval API in Cool.io 😞)'))\n
+
+= Hint 3 - Scalability
+
+  * Keep "shared nothing" state\n
+    (('note:(It makes "scale out"-able)'))
+    * Combine sharding and replication for large data
+    * Don't forget overhead for merging shards\n
+      (('note:(It will be CPU bound that isn't good with Ruby)'))
 
 = TODO
 
