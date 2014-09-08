@@ -249,13 +249,71 @@ Measure
 
   * Split each 2 characters with duplication
 
-= Sample
+= Example
 
   "Hello"
 
 (('tag:center'))↓ Bigram
 
   "He" "el" "ll" "lo"
+
+= Bigram - each
+
+  # coderay ruby
+
+  tokens = []
+  chars = text.each_char
+  chars.each_cons(2) do |characters|
+    # Memory allocation
+    tokens << characters.join("")
+  end
+
+= Bigram - []
+
+  # coderay ruby
+
+  tokens = []
+  (text.size - 1).times do |i|
+    # Share substring
+    # (Less memory allocations)
+    tokens << text[i, 2]
+  end
+
+= Bigram - Benchmark
+
+(('tag:center'))(({each})) is ((*faster*)) than (({[]}))
+
+  # RT
+
+  Language, each, []
+
+  ja(27KiB), ((*0.01s*)), (('0.08s'))
+  en(55KiB), ((*0.05s*)), (('0.56s'))
+
+(('tag:center'))(('note:"Ruby" page at Wikipedia'))
+
+= Bigram - Benchmark
+
+(('tag:center'))(({each})) is ((*slower*)) than (({[]}))
+
+  # RT
+
+  ASCII only?, each, [], Go
+
+  Yes, (('0.05s')), ((*0.01s*)), N/A
+  No,  ((*0.05s*)), (('0.56s')), ((*0.01s*))
+
+(('tag:center'))
+(('note:English "Ruby" page at Wikipedia: 55KiB'))\n
+(('note:"ASCII only" case replaces multibyte characters with "?"'))
+
+= Wrap the benchmark up
+
+  * What it is try:
+    * Less operations\n
+      (('note:(Accessing a UTF-8 char by index is inefficient)'))
+    * Less memory allocations
+  * Effective string processing is difficult in Ruby
 
 = TODO
 
@@ -271,6 +329,7 @@ Measure
 
   * Ruby is ((*not*)) suitable\n
     to implement FTSE
+    * Effective string processing isn't good with Ruby
     * Core FTSE algorithm is stable
     * C > Ruby with the same algorithm
 
