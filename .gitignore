@@ -23,3 +23,5 @@
 /benchmark/echo/node_modules/
 /benchmark/file-io/cat-no-buffer
 /benchmark/file-io/cat-buffer
+/benchmark/tokenizer/ruby-ja.txt
+/benchmark/tokenizer/ruby-en.txt

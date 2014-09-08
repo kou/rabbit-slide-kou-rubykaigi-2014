@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-text = File.read("ruby.txt")
+text = File.read(ARGV[0])
+if text.encoding == Encoding::ASCII_8BIT
+  text.force_encoding("ASCII").scrub!
+end
 
 start = Time.now
 tokens = []

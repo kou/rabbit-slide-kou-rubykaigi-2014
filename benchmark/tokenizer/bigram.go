@@ -5,7 +5,7 @@ import "fmt"
 import "time"
 
 func main() {
-	file, err := os.Open("ruby.txt")
+	file, err := os.Open(os.Args[1])
 	if err != nil {
 		fmt.Printf("Failed to open: %s\n", err)
 		os.Exit(1)
