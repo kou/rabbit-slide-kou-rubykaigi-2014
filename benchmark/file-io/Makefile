@@ -13,6 +13,7 @@ cat-no-buffer: cat-no-buffer.c
 benchmark: $(PROGRAMS)
 	dd if=/dev/zero of=/tmp/file bs=1024 count=200000
 	cat /tmp/file > /dev/null
+	bash -c 'time cat /tmp/file > /dev/null'
 	./cat-buffer --buffer-size 1024 /tmp/file > /dev/null
 	./cat-buffer --buffer-size 4096 /tmp/file > /dev/null
 	./cat-buffer --buffer-size 8192 /tmp/file > /dev/null
