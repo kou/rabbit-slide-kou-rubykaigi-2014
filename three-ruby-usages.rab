@@ -15,21 +15,21 @@
 : theme
    .
 
-= Conclusion by\n3 sentences
+= Three Ruby usages
+
+  * Glue
+  * Embed
+  * High-level interface
+
+= Conclusion by\n2 sentences
 
 = Conclusion1
-
-Ruby is not\n
-only for\n
-Rails
-
-= Conclusion2
 
 Ruby is not\n
 for\n
 all software
 
-= Conclusion3
+= Conclusion2
 
 Ruby can be\n
 a good part\n
@@ -43,7 +43,7 @@ You acquire ability to...
   * use Ruby more areas
   * stop using Ruby every case
 
-with reasonable reasons
+with ((*reasonable reasons*))
 
 = Goal - In other words
 
@@ -55,6 +55,21 @@ design decision
 
   * What you can drop
   * What you can't drop
+
+= Most cases for Ruby
+
+  * You can drop speed?
+  * You can't drop speed?
+
+(('tag:center'))
+(('note:(I'm not speedster)'))\n
+(('note:(Normally, I don't think about speed 😛)'))
+
+= Question
+
+  * Do you use Ruby to implement "cat" command?
+
+= XXX
 
 = Case study
 
@@ -298,14 +313,29 @@ Measure
 
   # RT
 
-  ASCII only?, each, [], Go
+  ASCII only?, each, []
 
-  Yes, (('0.05s')), ((*0.01s*)), N/A
-  No,  ((*0.05s*)), (('0.56s')), ((*0.01s*))
+  Yes, (('0.051s')), ((*0.014s*))
+  No,  ((*0.054s*)), (('0.536s'))
 
 (('tag:center'))
 (('note:English "Ruby" page at Wikipedia: 55KiB'))\n
 (('note:"ASCII only" case replaces multibyte characters with "?"'))
+
+= Bigram - Benchmark (ref)
+
+  # RT
+
+  Impl., Elapsed time
+
+  Ruby(each), 0.051s
+  Ruby([]),   0.014s
+  Go,         0.010s
+  C,          0.003s
+
+(('tag:center'))
+(('note:English "Ruby" page at Wikipedia: 55KiB'))\n
+(('note:ASCII only text'))
 
 = Wrap the benchmark up
 
@@ -314,8 +344,6 @@ Measure
       (('note:(Accessing a UTF-8 char by index is inefficient)'))
     * Less memory allocations
   * Effective string processing is difficult in Ruby
-
-= TODO
 
 = Get back to the topic
 
@@ -456,154 +484,29 @@ Library
     * Don't forget overhead for merging shards\n
       (('note:(It will be CPU bound that isn't good with Ruby)'))
 
-= TODO
+= FTSE and Ruby again
 
-= Point 2 - overhead
+  * Thought about using FTSE from Ruby
+  * Let's think about using Ruby in FTSE
 
-Network\n
->\n
-Bindings
+= FTSE characteristic
 
-= DFTSE components
+  * Must
+    * Fast
+  * Nice to have
+    * Flexibility
 
-  * FTSE (('note:(Full-Text Search Engine)'))
-  * ((*Messaging system*))
-  * Node management
-
-= Messaging system
-
-  * (({messages.each do |message|}))
-    * Parse (({message}))
-    * Compute how to process (({message}))
-    * Dispatch (({message})) to workers
-    * Collect results
-  * (({end}))
-
-= Messaging system - fig.
-
-xxx
-
-= Messaging system
-
-  * Complex
-    * Rapid development is helpful\n
-      (('note:(Ruby is suitable)'))
-  * Scalable (MUST)
-    * Many CPUs are usable
-
-= Scalable\nmessaging system
-
-  * Less messages
-    * Reduce network I/O
-  * Smaller messages
-    * Reduce network I/O
-    * Reduce serialize overhead
-
-= Less messages
-
-  * Measure
-    * Less messages
-    * More messages
-
-= Smaller messages
-
-  * Measure
-    * Small messages
-    * Large messages
-
-= Consider
-
-  * Is Ruby usable for this case?
-    * Rapid development is helpful against complex
-    * Slow?
-
-= Key idea: trade-off
-
-  * What you can drop
-  * What you can't drop
-
-= Think about slower
-
-  * Acceptable?
-    * Yes with reservations
-  * Reservations
-    * It's fast enough or\n
-      ("can drop" case)
-    * It's not ((*the bottle neck*))\n
-      ("can't drop" case)
-
-= Node management
-
-  * FTSE (('note:(Full-Text Search Engine)'))
-  * Messaging system
-  * ((*Node management*))
-
-= Node management
-
-  * Complex
-  * Less CPU
-  * Generic task
-
-= xxx
-
-= FTSE again
-
-  * ((*FTSE*)) (('note:(Full-Text Search Engine)'))
-  * Messaging system
-  * Node management
-
-= FTSE flexibility
+= Flexibility
 
   * Query optimizer
+    * Light operation than FTS
+    * Depends on data\n
+      (('note:(Choose effective index, use table scan and so on)'))
+  * Plugin
 
+= Query optimizer
 
-= FTSE - CPU
-
-(('note:(Full-Text Search Engine)'))
-
-Speed related items
-
-  * CPU - Ruby is slow
-  * Memory
-  * I/O
-
-= CPU - Confirm
-
-  * Is Ruby really slow?
-  * Confirm!
-    * We are programmer! :-)
-
-= Tokenize - Bigram
-
-  # coderay ruby
-
-  tokens = []
-  text.each_char.each_cons(2) do |characters|
-    tokens << characters.join("")
-  end
-
-= Tokenize - Result
-
-  * 27KB text (('note:(Wikipedia(ja) - Ruby)'))
-  * Ruby: 0.016s
-  * Go:   0.003s
-
-(('note:https://github.com/kou/rabbit-slide-kou-rubykaigi-2014/tree/master/benchmark/tokenizer/'))
-
-= Target Rubyists
-
-  * Who use only Ruby
-  * Who can't use Ruby yet
-
-= Goal
-
-  * Target Rubyists know options for...
-    * when they use Ruby
-    * where they use Ruby
-    * how they use Ruby
-
-= Key idea: trade-off
-
+  * Plan how to search
 
 = Three Ruby usages
 
