@@ -25,3 +25,4 @@
 /benchmark/file-io/cat-buffer
 /benchmark/tokenizer/ruby-ja.txt
 /benchmark/tokenizer/ruby-en.txt
+/benchmark/tokenizer/bigram
