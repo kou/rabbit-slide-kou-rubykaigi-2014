@@ -65,11 +65,90 @@ design decision
 (('note:(I'm not speedster)'))\n
 (('note:(Normally, I don't think about speed 😛)'))
 
-= Question
+= Question1 - Use Ruby?
 
-  * Do you use Ruby to implement "cat" command?
+To implement "cat"
 
-= XXX
+= cat by Ruby
+
+  # coderay ruby
+
+  IO.copy_stream(ARGF, $stdout)
+
+= Question2 - Use Ruby?
+
+To implement "grep"
+
+= grep by Ruby(1)
+
+  # coderay ruby
+
+  pattern = Regexp.new(ARGV.shift)
+  ARGF.each_line.grep(pattern) do |line|
+    print(line)
+  end
+
+= grep by Ruby(2)
+
+  # coderay ruby
+
+  system("grep", *ARGV)
+
+= Question3 - Use Ruby?
+
+To implement echo server
+
+= echo server by Ruby(1)
+
+  # coderay ruby
+
+  require "socket"
+  TCPServer.open(2929) do |server|
+    loop do
+      Thread.new(server.accept) do |client|
+        while (line = client.gets)
+          client.write(line)
+        end
+        client.close
+      end
+    end
+  end
+
+= echo server by Ruby(2)
+
+  # coderay ruby
+
+  require "webrick"
+  server = WEBrick::GenericServer.new(:Port => 2929)
+  server.start do |client|
+    while (line = client.gets)
+      client.write(line)
+    end
+  end
+
+= Question4 - Use Ruby?
+
+To implement memcached
+
+= Why?
+
+  * Why did you use Ruby?
+  * Why did not you use Ruby?
+
+= Goal
+
+You acquire ability to...
+
+  * use Ruby more areas
+  * stop using Ruby every case
+
+with ((*reasonable reasons*))
+
+= Three Ruby usages
+
+  * Glue
+  * Embed
+  * High-level interface
 
 = Case study
 
@@ -145,6 +224,23 @@ all components\n
       ("can drop" case)
     * It's not ((*the bottle neck*))\n
       ("can't drop" case)
+
+= Bottle neck?
+
+  * cat
+    * will not be bottle neck (('note:(maybe I/O)'))
+  * grep
+    * may be bottle neck for\n
+      over 100MB data
+
+= Bottle neck?
+
+  * echo-server
+    * will not be bottle neck\n
+      because of less connections
+  * memcached
+    * will be bottle neck\n
+      because of many connections
 
 = FTSE characteristic
 
@@ -249,7 +345,6 @@ Measure
 = Wrap the benchmark up
 
   * What it is try:
-    * (('del:Less operations'))
     * Less memory allocations
     * Less I/O
     * Algorithm > Language speed
