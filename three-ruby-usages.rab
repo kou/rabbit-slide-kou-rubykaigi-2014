@@ -15,140 +15,42 @@
 : theme
    .
 
-= Three Ruby usages
+= Conclusion
 
-  * Glue
-  * Embed
-  * High-level interface
+  * Describe three Ruby usages
+    * Glue
+    * Embed
+    * High-level interface
+  * Put them into your toolbox
 
-= Conclusion by\n2 sentences
+= Why do I talk about it?
 
-= Conclusion1
+  * Ruby is not only for Rails
+  * Ruby is not for all software
+  * Ruby can be a good part of many software
+  * Because ...
 
-Ruby is not\n
-for\n
-all software
+= Stop!
 
-= Conclusion2
-
-Ruby can be\n
-a good part\n
-of\n
-many software
-
-= Goal
-
-You acquire ability to...
-
-  * use Ruby more areas
-  * stop using Ruby every case
-
-with ((*reasonable reasons*))
-
-= Goal - In other words
-
-Give you\n
-a basis for\n
-design decision
-
-= Key idea: Trade-off
-
-  * What you can drop
-  * What you can't drop
-
-= Most cases for Ruby
-
-  * You can drop speed?
-  * You can't drop speed?
-
-(('tag:center'))
-(('note:(I'm not speedster)'))\n
-(('note:(Normally, I don't think about speed 😛)'))
-
-= Question1 - Use Ruby?
-
-To implement "cat"
-
-= cat by Ruby
-
-  # coderay ruby
-
-  IO.copy_stream(ARGF, $stdout)
-
-= Question2 - Use Ruby?
-
-To implement "grep"
-
-= grep by Ruby(1)
-
-  # coderay ruby
-
-  pattern = Regexp.new(ARGV.shift)
-  ARGF.each_line.grep(pattern) do |line|
-    print(line)
-  end
-
-= grep by Ruby(2)
-
-  # coderay ruby
-
-  system("grep", *ARGV)
-
-= Question3 - Use Ruby?
-
-To implement echo server
-
-= echo server by Ruby(1)
-
-  # coderay ruby
-
-  require "socket"
-  TCPServer.open(2929) do |server|
-    loop do
-      Thread.new(server.accept) do |client|
-        while (line = client.gets)
-          client.write(line)
-        end
-        client.close
-      end
-    end
-  end
-
-= echo server by Ruby(2)
-
-  # coderay ruby
-
-  require "webrick"
-  server = WEBrick::GenericServer.new(:Port => 2929)
-  server.start do |client|
-    while (line = client.gets)
-      client.write(line)
-    end
-  end
-
-= Question4 - Use Ruby?
-
-To implement memcached
-
-= Why?
-
-  * Why did you use Ruby?
-  * Why did not you use Ruby?
+  * No time to describe about\n
+    why you know these usages
+    * (('note:Prepared it but it was too long!'))
+    * (('note:Couldn't described these usages in time 😞'))
+    * (('note:Interest? → Speak to me after this talk'))
+    * (('note:I show reasons, sample codes and benchmark results'))
 
 = Goal
 
-You acquire ability to...
+  * You know three Ruby usages
+    * Glue
+    * Embed
+    * High-level interface
+  * You can remember them later
 
-  * use Ruby more areas
-  * stop using Ruby every case
+= Not goal
 
-with ((*reasonable reasons*))
-
-= Three Ruby usages
-
-  * Glue
-  * Embed
-  * High-level interface
+Why you should know them\n
+(('note:(Sorry)'))
 
 = Case study
 
@@ -170,8 +72,8 @@ with ((*reasonable reasons*))
 
 = Why do we use DFTSE?
 
-(('note:DFTSE consists of'))\n
-different characteristic components
+Omit\n
+(('note:(Sorry)'))
 
 = DFTSE - Components
 
@@ -181,288 +83,35 @@ different characteristic components
   * Cluster management
   * Process management (('note:(Multiprocessing)'))
 
-= At this talk
+= Glue
 
-No time\n
-to talk about\n
-all components\n
-😧
+  * ((*Glue*))
+  * Embed
+  * High-level interface
 
-= Think about only FTSE
+= Glue types
 
-  * ((*Full-text search engine*))\n
-    (('note:(CPU, memory and I/O related operation)'))
-  * Messaging system (('note:(Network operation)'))
-  * Cluster management
-  * Process management (('note:(Multiprocessing)'))
+  * Use external library\n
+    (('note:(a.k.a. Bindings or Extension library)'))
+  * Use external command
 
-= Ruby for FTSE in DFTSE
+= External library
 
-  * Where do we use Ruby?
-  * How do we use Ruby?
-  * (('wait'))Where ((*don't*)) we use Ruby?
-
-= Ruby's Pros/Cons
-
-  * Pros
-    * Fun 😃
-    * Rapid development (('note:("trial & error"-able)'))
-  * Cons
-    * Slower (('note:rather than compile style languages'))
-
-= Key idea: Trade-off
-
-  * What you can drop
-  * What you can't drop
-
-= Think about "slower"
-
-  * Acceptable?
-    * Yes with reservations
-  * Reservations
-    * It's fast enough or\n
-      ("can drop" case)
-    * It's not ((*the bottle neck*))\n
-      ("can't drop" case)
-
-= Bottle neck?
-
-  * cat
-    * will not be bottle neck (('note:(maybe I/O)'))
-  * grep
-    * may be bottle neck for\n
-      over 100MB data
-
-= Bottle neck?
-
-  * echo-server
-    * will not be bottle neck\n
-      because of less connections
-  * memcached
-    * will be bottle neck\n
-      because of many connections
-
-= FTSE characteristic
-
-  * ((*CPU, memory*)) (('note:and I/O related'))\n
-    operation
-    * (('note:DB content should be on memory'))
-  * One of core operations\n
-    in DFTSE
-    * FTSE is used many times
-
-= To be faster
-
-  * Less operations
-  * Less memory allocations
-  * Less I/O
-
-(('tag:center'))They depend on algorithm rather than language speed
-
-= Really?
-
-Measure
-
-= Less memory allocations
-
-  * Implement (({cat}))
-  * Parameter
-    * Whether reuse read buffer
-
-= cat - Not reuse
-
-  # coderay ruby
-
-  chunk_size = 4096
-  loop do
-    chunk = file.read(chunk_size)
-    break if chunk.nil?
-    print(chunk)
-  end
-
-= cat - Reuse
-
-  # coderay ruby
-
-  buffer_size = 4096
-  buffer = ""
-  loop do
-    chunk = file.read(buffer_size, buffer)
-    break if chunk.nil?
-    print(chunk)
-  end
-
-= cat - Benchmark
-
-(('tag:center'))Less memory allocations is ((*faster*))
-
-  # RT
-
-  Parameter, Elapsed time
-
-  not reuse, 0.14s
-  reuse,     0.07s
-
-(('tag:center'))(('note:Input size: 200MiB'))
-
-= Less I/O
-
-  * Implement (({cat}))
-  * Parameter
-    * Read buffer size
-
-= cat - C
-
-  # coderay c
-
-  char *buffer;
-  buffer = malloc(buffer_size);
-  while (1) {
-    ssize_t read_size;
-    read_size = read(fd, buffer, buffer_size);
-    if (read_size == 0) {
-      break;
-    }
-    write(STDOUT_FILENO, buffer, read_size);
-  }
-  free(buffer);
-
-= cat - Benchmark
-
-(('tag:center'))Ruby/8KiB is faster than C/1KiB
-
-  # RT
-
-  Size, C, Ruby
-
-  1KiB, 0.08s, 0.17s
-  4KiB, 0.04s, 0.07s
-  8KiB, 0.03s, 0.05s
-  16KiB, 0.03s, 0.04s
-
-(('tag:center'))(('note:Input size: 200MiB'))
-
-= Wrap the benchmark up
-
-  * What it is try:
-    * Less memory allocations
-    * Less I/O
-    * Algorithm > Language speed
-  * ((*Ruby can be faster*)) than C
-
-= But!
-
-  * Ruby isn't suitable for effective string processing
-  * FTSE needs many string processings
-
-= Bigram tokenizer
-
-  * Split each 2 characters with duplication
-
-= Example
-
-  "Hello"
-
-(('tag:center'))↓ Bigram
-
-  "He" "el" "ll" "lo"
-
-= Bigram - each
-
-  # coderay ruby
-
-  tokens = []
-  chars = text.each_char
-  chars.each_cons(2) do |characters|
-    # Memory allocation
-    tokens << characters.join("")
-  end
-
-= Bigram - []
-
-  # coderay ruby
-
-  tokens = []
-  (text.size - 1).times do |i|
-    # Share substring
-    # (Less memory allocations)
-    tokens << text[i, 2]
-  end
-
-= Bigram - Benchmark
-
-(('tag:center'))(({each})) is ((*faster*)) than (({[]}))
-
-  # RT
-
-  Language, each, []
-
-  ja(27KiB), ((*0.01s*)), (('0.08s'))
-  en(55KiB), ((*0.05s*)), (('0.56s'))
-
-(('tag:center'))(('note:"Ruby" page at Wikipedia'))
-
-= Bigram - Benchmark
-
-(('tag:center'))(({each})) is ((*slower*)) than (({[]}))
-
-  # RT
-
-  ASCII only?, each, []
-
-  Yes, (('0.051s')), ((*0.014s*))
-  No,  ((*0.054s*)), (('0.536s'))
-
-(('tag:center'))
-(('note:English "Ruby" page at Wikipedia: 55KiB'))\n
-(('note:"ASCII only" case replaces multibyte characters with "?"'))
-
-= Bigram - Benchmark (ref)
-
-  # RT
-
-  Impl., Elapsed time
-
-  Ruby(each), 0.051s
-  Ruby([]),   0.014s
-  Go,         0.010s
-  C,          0.003s
-
-(('tag:center'))
-(('note:English "Ruby" page at Wikipedia: 55KiB'))\n
-(('note:ASCII only text'))
-
-= Wrap the benchmark up
-
-  * What it is try:
-    * Less operations\n
-      (('note:(Accessing a UTF-8 char by index is inefficient)'))
-    * Less memory allocations
-  * Effective string processing is difficult in Ruby
-
-= Get back to the topic
-
-  * Full-text search engine
-    * ((*CPU, memory*)) (('note:and I/O related')) operation
-    * One of core operations in DFTSE
-    * FTSE is used many times
-  * Can we use Ruby for it?
-
-= FTSE by Ruby
-
-  * Ruby is ((*not*)) suitable\n
-    to implement FTSE
-    * Effective string processing isn't good with Ruby
-    * Core FTSE algorithm is stable
-    * C > Ruby with the same algorithm
-
-= FTSE and Ruby
-
-  * Use existing FTSE
-  * Fast FTSE exists: Groonga
+  * Groonga
     * FTSE implemented by C
-    * HTTP server and library
-  * We can use it from Ruby
+  * Bindings exist
+    * Rroonga\n
+      (('note:(I'm the author 😃)'))
+    * Omit how to implement bindings
+
+= FTSE
+
+  * Must fast!
+  * Hint:
+    * Don't run CPU bound processing in Ruby
+    * e.g.: Filter records
+
+= TODO
 
 = Groonga and Ruby
 
