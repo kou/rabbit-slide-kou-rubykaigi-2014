@@ -18,44 +18,23 @@
 = Conclusion
 
   * Describe three Ruby usages
+    * High-level interface
     * Glue
     * Embed
-    * High-level interface
   * Put them into your toolbox
-
-= Why do I talk about it?
-
-  * Ruby is not only for Rails
-  * Ruby is not for all software
-  * Ruby can be a good part of many software
-  * Because ...
-
-= Stop!
-
-  * No time to describe about\n
-    why you know these usages
-    * (('note:Prepared it but it was too long!'))
-    * (('note:Couldn't described these usages in time 😞'))
-    * (('note:Interest? → Speak to me after this talk'))
-    * (('note:I show reasons, sample codes and benchmark results'))
 
 = Goal
 
   * You know three Ruby usages
+    * High-level interface
     * Glue
     * Embed
-    * High-level interface
   * You can remember them later
-
-= Not goal
-
-Why you should know them\n
-(('note:(Sorry)'))
 
 = Case study
 
   # blockquote
-  Implement distributed full-text search engine with Ruby
+  Implement distributed full-text search engine in Ruby
 
 (('note:Abbreviation: DFTSE = Distributed Full-Text Search Engine'))
 
@@ -72,44 +51,242 @@ Why you should know them\n
 
 = Why do we use DFTSE?
 
-Omit\n
-(('note:(Sorry)'))
+I'm developing Droonga\n
+(('note:(A DFTSE implementation in Ruby)'))\n
+😃
 
-= DFTSE - Components
+= Messaging system
 
-  * Full-text search engine\n
-    (('note:(CPU, memory and I/O related operation)'))
-  * Messaging system (('note:(Network operation)'))
+(('tag:center'))DFTSE components
+
+  * Full-text search engine
+  * ((*Messaging system*))
   * Cluster management
-  * Process management (('note:(Multiprocessing)'))
+  * Process management
+
+= Messaging system
+
+  # image
+  # src = images/droonga-messaging-system.svg
+  # relative_width = 80
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= High-level interface
+
+(('tag:center'))Three Ruby usages
+
+  * ((*High-level interface*))
+  * Glue
+  * Embed
+
+= Messaging system
+
+  * Plan how to search
+  * Distribute requests
+  * Merge responses
+
+= Characteristic
+
+  * Plan how to search
+    * May speed up/down over 100 times
+  * Distribute requests
+    * Network bound operation
+  * Merge responses
+    * CPU and network bound operation
+
+= Messaging system
+
+  * Algorithm is important
+    * Rapid prototype and measure feedback loop is helpful
+  * Ruby is good for\n
+    rapid development
+
+= The current Droonga\nMessaging system
+
+  * Isn't good yet 😞
+  * Need more feedback loops
+  * Leaning algorithms
+    * BSP, Dryad, CIEL, ...
 
 = Glue
 
+(('tag:center'))Three Ruby usages
+
+  * High-level interface
   * ((*Glue*))
   * Embed
-  * High-level interface
 
-= Glue types
+= What is gluing
 
-  * Use external library\n
-    (('note:(a.k.a. Bindings or Extension library)'))
+  * Exporting a feature
+  * Combining features
+
+= Glue
+
+  # image
+  # src = images/glue.svg
+  # relative_width = 80
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Why do we glue?
+
+  * Reuse existing features
+
+= How to glue
+
+  * Use external library
+    * (('wait'))Implement bindings
   * Use external command
+    * (('wait'))Spawn command
+  * Use external service
+    * (('wait'))Implement client
 
-= External library
+= Glue in Droonga
 
-  * Groonga
-    * FTSE implemented by C
-  * Bindings exist
-    * Rroonga\n
-      (('note:(I'm the author 😃)'))
-    * Omit how to implement bindings
+  * ((*Rroonga*)): Groonga bindings
+    * Groonga: FTSE C library (('note:(and server)'))
+  * Cool.io: libev bindings
+    * libev: Event loop C library\n
+      (('note:(Based on I/O multiplexing and non-blocking I/O)'))
+  * Event handler for Serf
+    * Serf: Cluster management tool
 
-= FTSE
+= Rroonga in Droonga
 
-  * Must fast!
-  * Hint:
-    * Don't run CPU bound processing in Ruby
-    * e.g.: Filter records
+  # image
+  # src = images/droonga-rroonga.svg
+  # relative_width = 80
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= FTSE in Droonga
+
+  * Must be fast!
+  * CPU bound processing
+
+= For fast Rroonga
+
+  * ((*Do heavy processing in C*))
+    * Nice to have Ruby-ish API
+  * Less memory allocation
+    * Cache internal buffer
+  * Multiprocessing
+    * Groonga supports multiprocessing
+
+= Search
+
+  # coderay ruby
+
+  Groonga::Database.open(ARGV[0])
+  entries = Groonga["Entries"]
+
+  entries.select do |record|
+    record.description =~ "Ruby"
+  end
+
+= Search - Pure Ruby (ref)
+
+  # coderay ruby
+
+  Groonga::Database.open(ARGV[0])
+  entries = Groonga["Entries"]
+
+  entries.find_all do |record|
+    /Ruby/ =~ record.description
+  end
+
+= Search impl.
+
+  # coderay ruby
+
+  # (2) Evaluate expression in C
+  entries.select do |record|
+    # (1) Build expression in Ruby
+    # This block is evaluated only once
+    record.description =~ "Ruby"
+  end
+
+= Search impl. - Fig.
+
+  # image
+  # src = images/rroonga-search.svg
+  # relative_width = 80
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Search - Benchmark
+
+  * Ruby (('note:(It's already showed)'))
+  * C
+
+= Search - C
+
+  # coderay c
+
+  grn_obj *expr;
+  grn_obj *variable;
+  const gchar *filter = "description @ \"Ruby\"";
+  grn_obj *result;
+
+  GRN_EXPR_CREATE_FOR_QUERY(&ctx, table, expr, variable);
+  grn_expr_parse(&ctx, expr,
+                 filter, strlen(filter), NULL,
+                 GRN_OP_MATCH, GRN_OP_AND,
+                 GRN_EXPR_SYNTAX_SCRIPT);
+  result = grn_table_select(&ctx, table, expr, NULL, GRN_OP_OR);
+  grn_obj_unlink(&ctx, expr);
+  grn_obj_unlink(&ctx, result);
+
+= Search - Benchmark
+
+(('tag:center'))Fast enough with Ruby
+
+  # RT
+
+  Impl., Elapsed time
+
+  C,       0.6ms
+  Ruby,    0.8ms
+
+(('tag:center'))\n
+(('note:(Full-text search with "Ruby" against 72632 records)'))
+
+= More faster
+
+  * Improve messaging system
+    * May speed up over 100 times
+  * ((*Improve FTSE*))
+    * May speed up over 100 times
+
+= How to improve FTSE
+
+  * Use index effectively
+    * Add new index search feature
+    * Tune query optimizer
+
+= TODO
+
+= Embed
+
+(('tag:center'))Three Ruby usages
+
+  * High-level interface
+  * Glue
+  * ((*Embed*))
 
 = TODO
 
