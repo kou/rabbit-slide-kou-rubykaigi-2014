@@ -20,7 +20,7 @@ def search
     parameters = {
       "table"          => "Entries",
       "match_columns"  => "description",
-      "query"          => "文字列",
+      "query"          => "Ruby",
       "sortby"         => "-_score",
       "limit"          => 10,
       "output_columns" => "label,version,description",

@@ -19,7 +19,7 @@ entries = Groonga["Entries"]
 start_time = Time.now
 n.times do
   matched_records = entries.select do |record|
-    record.description =~ "文字列"
+    record.description =~ "Ruby"
   end
   sorted_records = matched_records.sort([["_score", :desc]], :limit => 10)
   sorted_records.each do |record|
