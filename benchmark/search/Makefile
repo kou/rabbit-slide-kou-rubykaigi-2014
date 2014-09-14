@@ -4,6 +4,7 @@ PROGRAMS =					\
 benchmark: $(PROGRAMS)
 	./api $(DB_PATH)
 	./binding-api.rb $(DB_PATH)
+	./no-api.rb $(DB_PATH)
 	./http-client.rb
 	./binding.rb $(DB_PATH)
 	./http-client.rb --n-times 8
