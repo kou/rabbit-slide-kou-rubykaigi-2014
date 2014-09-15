@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="803.00897"
-   height="480.98834"
+   width="741.50897"
+   height="436.84164"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
@@ -95,8 +95,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="564.62161"
-     inkscape:cy="303.18737"
+     inkscape:cx="408.14658"
+     inkscape:cy="225.44028"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -117,7 +117,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -125,28 +125,28 @@
      inkscape:label="レイヤー 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(187.42758,-98.790756)">
+     transform="translate(125.42758,-98.790756)">
     <text
        xml:space="preserve"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="-125.81148"
+       x="-63.811478"
        y="231.32863"
        id="text2987"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2989"
-         x="-125.81148"
+         x="-63.811478"
          y="231.32863">Ruby</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="-82.751289"
+       x="-20.751289"
        y="481.55563"
        id="text2991"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2993"
-         x="-82.751289"
+         x="-20.751289"
          y="481.55563">C</tspan></text>
     <rect
        y="109.79076"
@@ -182,13 +182,14 @@
          y="239.11613"
          id="tspan2999">end</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -36.365492,373.53967 641.446862,0"
+       style="fill:none;stroke:#c4a000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 19.348794,373.53967 585.732576,0"
        id="path3034"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
-       d="m 227.14286,273.43361 0,240.71429"
+       d="m 282.9043,273.43361 0,200.30819"
        id="path3998"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -211,7 +212,7 @@
          x="112.46126"
          y="390.51431">Expression</tspan></text>
     <g
-       transform="matrix(0.57254901,0,0,0.57254901,-421.66119,101.52909)"
+       transform="matrix(0.57254901,0,0,0.57254901,-359.66119,101.52909)"
        id="layer1-3"
        inkscape:label="レイヤー 1">
       <g
@@ -246,34 +247,34 @@
     <text
        xml:space="preserve"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="57.5"
-       y="311.29074"
+       x="42.753815"
+       y="298.15875"
        id="text4444"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4446"
-         x="57.5"
-         y="311.29074">Create</tspan></text>
+         x="42.753815"
+         y="298.15875">Build</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4473"
-       y="361.29074"
-       x="-33.928574"
+       y="290.58008"
+       x="162.30499"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"><tspan
-         y="361.29074"
-         x="-33.928574"
+         y="290.58008"
+         x="162.30499"
          id="tspan4475"
          sodipodi:role="line">Search</tspan><tspan
-         y="401.29074"
-         x="-33.928574"
+         y="330.58008"
+         x="162.30499"
          sodipodi:role="line"
          id="tspan4508">request</tspan></text>
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path4548"
-       d="m 443.14286,515.6479 0,-240.71429"
+       d="m 463.14286,475.2418 0,-200.30819"
        style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)" />
     <rect
        y="340.93362"
@@ -296,16 +297,16 @@
     <text
        xml:space="preserve"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="182.25914"
-       y="559.3067"
+       x="207.97342"
+       y="518.59241"
        id="text4504"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4506"
-         x="182.25914"
-         y="559.3067">Evaluate expression</tspan></text>
+         x="207.97342"
+         y="518.59241">Evaluate expression</tspan></text>
     <g
-       transform="matrix(0.59492303,0,0,0.59492303,-112.63678,327.66361)"
+       transform="matrix(0.59492303,0,0,0.59492303,169.50608,249.94932)"
        id="layer1-8"
        inkscape:label="レイヤー 1">
       <g
@@ -341,30 +342,30 @@
     <text
        sodipodi:linespacing="125%"
        id="text4692"
-       y="567.93909"
-       x="87.395058"
+       y="490.22479"
+       x="369.5379"
        style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"><tspan
-         y="567.93909"
-         x="87.395058"
+         y="490.22479"
+         x="369.5379"
          id="tspan4694"
          sodipodi:role="line">by Groonga project</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="-129.61909"
+       x="-67.619087"
        y="397.88867"
        id="text4696"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4698"
-         x="-129.61909"
+         x="-67.619087"
          y="397.88867">by Groonga project</tspan></text>
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path4702"
-       d="m 173.14286,220.57647 0,110.71429"
+       d="m 133.14286,220.57647 0,110.71429"
        style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)" />
   </g>
 </svg>

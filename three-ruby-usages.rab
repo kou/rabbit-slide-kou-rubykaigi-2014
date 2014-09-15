@@ -154,11 +154,6 @@ I'm developing Droonga\n
     * Rubyists who can write C/C++
   * Embed
 
-= What is gluing
-
-  * Exporting a feature
-  * Combining features
-
 = Glue
 
   # image
@@ -188,9 +183,9 @@ I'm developing Droonga\n
 = How to glue
 
   * Use external library
-    * (('wait'))Implement bindings
+    * (('wait'))Implement bindings (('note:(mysql2 gem)'))
   * Use external command
-    * (('wait'))Spawn command
+    * (('wait'))Spawn command (('note:(Vagrant)'))
   * Use external service
     * (('wait'))Implement client
 
@@ -201,8 +196,7 @@ I'm developing Droonga\n
   * Cool.io: libev bindings
     * libev: Event loop C library\n
       (('note:(Based on I/O multiplexing and non-blocking I/O)'))
-  * Event handler for Serf
-    * Serf: Cluster management tool
+  * Serf: Clustering tool (('note:(in Droonga)'))
 
 = Rroonga in Droonga
 
@@ -218,6 +212,7 @@ I'm developing Droonga\n
 = FTSE in Droonga
 
   * Must be fast!
+    * (('note:Some bindings don't need to be fast'))
   * CPU bound processing
 
 = For fast Rroonga
@@ -248,6 +243,7 @@ I'm developing Droonga\n
   entries = Groonga["Entries"]
 
   entries.find_all do |record|
+    # This block is evaluated for each record
     /Ruby/ =~ record.description
   end
 
@@ -298,7 +294,7 @@ I'm developing Droonga\n
 
 = Search - Benchmark
 
-(('tag:center'))Fast enough with Ruby
+(('tag:center'))Ruby impl. is fast enough 😃
 
   # RT
 
@@ -310,20 +306,37 @@ I'm developing Droonga\n
 (('tag:center'))\n
 (('note:(Full-text search with "Ruby" against 72632 records)'))
 
-= More faster
+= Embed
 
-  * Improve messaging system
-    * May speed up over 100 times
-  * ((*Improve FTSE*))
-    * May speed up over 100 times
+(('tag:center'))Three Ruby usages
+
+  * High-level interface
+  * Glue
+  * ((*Embed*))
+    * Ruby and C/C++ programmers
+
+= Embed
+
+  # image
+  # src = images/embed.svg
+  # relative_width = 90
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Embed in Droonga
+
+  * Query optimizer in Groonga
+
+= TODO
 
 = How to improve FTSE
 
   * Use index effectively
     * Add new index search feature
     * Tune query optimizer
-
-= TODO
 
 = Embed
 
