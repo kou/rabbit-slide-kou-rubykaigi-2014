@@ -18,6 +18,57 @@ This talk uses Droonga, a distributed full-text search engine, as a
 sample application to describe these Ruby usages. Droonga uses these
 three Ruby usages.
 
+== License
+
+=== Slide
+
+CC BY-SA 4.0
+
+Use the followings for notation of the author:
+
+  * Kouhei Sutou
+
+=== Images
+
+  * ClearCode Inc. logo
+
+==== ClearCode Inc. logo
+
+CC BY-SA 3.0
+
+Author: ClearCode Inc.
+
+It is used in page header and some pages in the slide.
+
+==== Ruby logo
+
+File:
+
+  * images/ruby.pdf
+
+CC BY-SA 2.5
+
+Author: Yukihiro Matsumoto
+
+==== Groonga logos
+
+Files:
+
+  * images/groonga-logo.svg
+  * images/rroonga-logo.svg
+
+CC BY 3.0
+
+Author: The Groonga Project
+
+==== Other images
+
+Files:
+
+  * ...
+
+CC BY-SA 
+
 == For author
 
 === Show

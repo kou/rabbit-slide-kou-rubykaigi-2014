@@ -31,6 +31,15 @@
     * Embed
   * You can remember them later
 
+= Targets
+
+  * High-level interface
+    * Pure Rubyists
+  * Glue
+    * Rubyists who can write C/C++
+  * Embed
+    * Ruby and C/C++ programmers
+
 = Case study
 
   # blockquote
@@ -55,7 +64,38 @@ I'm developing Droonga\n
 (('note:(A DFTSE implementation in Ruby)'))\n
 😃
 
-= Messaging system
+= High-level interface
+
+(('tag:center'))Three Ruby usages
+
+  * ((*High-level interface*))
+    * For Pure Rubyists
+  * Glue
+  * Embed
+
+= High-level interface
+
+  # image
+  # src = images/high-level-interface.svg
+  # relative_height = 100
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Example
+
+  # image
+  # src = images/high-level-interface-examples.svg
+  # relative_width = 100
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Droonga: High-level IF
 
 (('tag:center'))DFTSE components
 
@@ -75,14 +115,6 @@ I'm developing Droonga\n
 : enable-title-on-image
    false
 
-= High-level interface
-
-(('tag:center'))Three Ruby usages
-
-  * ((*High-level interface*))
-  * Glue
-  * Embed
-
 = Messaging system
 
   * Plan how to search
@@ -98,18 +130,19 @@ I'm developing Droonga\n
   * Merge responses
     * CPU and network bound operation
 
-= Messaging system
+= Point
 
   * Algorithm is important
-    * Rapid prototype and measure feedback loop is helpful
-  * Ruby is good for\n
-    rapid development
+    * Need to find new/existing better algorithm
+    * "Rapid prototype and measure" feedback loop is helpful
+    * Ruby is good at rapid dev.
+
 
 = The current Droonga\nMessaging system
 
-  * Isn't good yet 😞
+  * It's not good yet 😞
   * Need more feedback loops
-  * Leaning algorithms
+  * Leaning existing algorithms
     * BSP, Dryad, CIEL, ...
 
 = Glue
@@ -118,6 +151,7 @@ I'm developing Droonga\n
 
   * High-level interface
   * ((*Glue*))
+    * Rubyists who can write C/C++
   * Embed
 
 = What is gluing
@@ -129,6 +163,17 @@ I'm developing Droonga\n
 
   # image
   # src = images/glue.svg
+  # relative_width = 80
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Example
+
+  # image
+  # src = images/glue-examples.svg
   # relative_width = 80
 
 == slide property
