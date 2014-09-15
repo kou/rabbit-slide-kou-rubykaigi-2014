@@ -10,7 +10,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="424.85715"
-   height="453.2514"
+   height="329.89142"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
@@ -517,14 +517,14 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1"
      inkscape:cx="307.09204"
-     inkscape:cy="279.02008"
+     inkscape:cy="279.0201"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1277"
      inkscape:window-height="760"
-     inkscape:window-x="1959"
-     inkscape:window-y="186"
+     inkscape:window-x="2629"
+     inkscape:window-y="230"
      inkscape:window-maximized="0"
      fit-margin-top="10"
      fit-margin-left="10"
@@ -538,7 +538,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -546,23 +546,23 @@
      inkscape:label="レイヤー 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-66.14286,-100.11076)">
+     transform="translate(-66.14286,-223.47077)">
     <rect
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#a40000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect2985"
        width="402.85715"
-       height="289.99997"
+       height="188"
        x="77.14286"
-       y="252.36218" />
+       y="354.36218" />
     <rect
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#4e9a06;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect2987"
        width="358.57144"
-       height="145.71431"
+       height="75.714294"
        x="100"
-       y="328.64789" />
+       y="398.64789" />
     <rect
-       y="210.93361"
+       y="280.93359"
        x="98.571426"
        height="97.142868"
        width="360"
@@ -572,43 +572,39 @@
        xml:space="preserve"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="278.57144"
-       y="133.79076"
+       y="257.79077"
        id="text2991"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan2993"
          x="278.57144"
-         y="133.79076">Users</tspan><tspan
-         sodipodi:role="line"
-         x="278.57144"
-         y="173.79076"
-         id="tspan2995">(End-users/Developers)</tspan></text>
+         y="257.79077"
+         id="tspan2995">Higher layer users</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text2997"
-       y="253.79076"
+       y="323.79077"
        x="278.73145"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"><tspan
          id="tspan3001"
-         y="253.79076"
+         y="323.79077"
          x="278.73145"
          sodipodi:role="line">High-level</tspan><tspan
-         y="293.79077"
+         y="363.79077"
          x="278.73145"
          sodipodi:role="line"
          id="tspan3005">interface</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="182.73143"
-       y="415.21933"
+       x="212.73143"
+       y="451.21933"
        id="text3026"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3028"
-         x="182.73143"
-         y="415.21933">Core feature</tspan></text>
+         x="212.73143"
+         y="451.21933">Feature</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text3030"
@@ -621,7 +617,7 @@
          id="tspan3032"
          sodipodi:role="line">Application/Library</tspan></text>
     <g
-       transform="matrix(0.26960562,0,0,-0.26960562,325.73929,367.32637)"
+       transform="matrix(0.26960562,0,0,-0.26960562,325.73929,437.32637)"
        inkscape:label="ruby"
        id="g3433">
       <g
@@ -923,12 +919,12 @@
        xml:space="preserve"
        style="font-size:4px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="387.94739"
-       y="292.245"
+       y="362.245"
        id="text4043"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4045"
          x="387.94739"
-         y="292.245">by Yukihiro Matsumoto</tspan></text>
+         y="362.245">by Yukihiro Matsumoto</tspan></text>
   </g>
 </svg>

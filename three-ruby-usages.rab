@@ -38,7 +38,7 @@
   * Glue
     * Rubyists who can write C/C++
   * Embed
-    * Ruby and C/C++ programmers
+    * Rubyists who also write C/C++
 
 = Case study
 
@@ -69,15 +69,22 @@ I'm developing Droonga\n
 (('tag:center'))Three Ruby usages
 
   * ((*High-level interface*))
-    * For Pure Rubyists
+    * Target: Pure Rubyists
   * Glue
   * Embed
 
 = High-level interface
 
+  * Provides\n
+    lower layer feature to\n
+    higher layer
+  * With simpler/convenience API
+
+= High-level interface
+
   # image
   # src = images/high-level-interface.svg
-  # relative_height = 100
+  # relative_height = 95
 
 == slide property
 
@@ -117,9 +124,12 @@ I'm developing Droonga\n
 
 = Messaging system
 
-  * Plan how to search
-  * Distribute requests
-  * Merge responses
+  * Provides\n
+    distributed search feature
+    * Plan how to search
+    * Distribute requests
+    * Merge responses
+  * Users don't know details
 
 = Characteristic
 
@@ -151,7 +161,8 @@ I'm developing Droonga\n
 
   * High-level interface
   * ((*Glue*))
-    * Rubyists who can write C/C++
+    * Target:\n
+      Rubyists who can write C/C++
   * Embed
 
 = Glue
@@ -219,9 +230,9 @@ I'm developing Droonga\n
 
   * ((*Do heavy processing in C*))
     * Nice to have Ruby-ish API
-  * Less memory allocation
+  * (('wait'))Less memory allocation
     * Cache internal buffer
-  * Multiprocessing
+  * (('wait'))Multiprocessing
     * Groonga supports multiprocessing
 
 = Search
@@ -313,7 +324,8 @@ I'm developing Droonga\n
   * High-level interface
   * Glue
   * ((*Embed*))
-    * Ruby and C/C++ programmers
+    * Target:\n
+      Rubyists who also write C/C++
 
 = Embed
 
@@ -326,297 +338,168 @@ I'm developing Droonga\n
 : enable-title-on-image
    false
 
+= Examples
+
+  # image
+  # src = images/embed-examples.svg
+  # relative_width = 90
+
+== slide property
+
+: enable-title-on-image
+   false
+
 = Embed in Droonga
 
-  * Query optimizer in Groonga
+  # image
+  # src = images/droonga-mruby.svg
+  # relative_height = 100
 
-= TODO
+== slide property
 
-= How to improve FTSE
+: enable-title-on-image
+   false
 
-  * Use index effectively
-    * Add new index search feature
-    * Tune query optimizer
+= CRuby vs. mruby
 
-= Embed
+  * CRuby
+    * Full featured!
+    * Signal handler isn't needed 😞
+  * mruby
+    * Multi-interpreters in a process!
+    * You may miss some features 😞
 
-(('tag:center'))Three Ruby usages
-
-  * High-level interface
-  * Glue
-  * ((*Embed*))
-
-= TODO
-
-= Groonga and Ruby
-
-  * How to use Groonga?
-    * As HTTP server
-    * As library\n
-      (The Ruby binding is Rroonga)
-  * Which should we choose?
-
-= FTSE - How to use?
-
-HTTP server\n
-vs.\n
-Library
-
-= Client vs. Binding
-
-  * Ruby for client use
-    * Network overhead
-  * Ruby for binding use
-    * Value conversion overhead
-
-= Measure
-
-  * Operations
-    * Full-text search
-    * Sort
-    * Drilldown
-
-= HTTP client
-
-  # coderay ruby
-
-  Net::HTTP.start("localhost", 10041) do |http|
-    parameters = {
-      "table"          => "Entries",
-      "match_columns"  => "description",
-      "query"          => "文字列",
-      "sortby"         => "-_score",
-      "limit"          => 10,
-      "output_columns" => "label,version,description",
-      "drilldown"      => "version",
-      "cache"          => "no",
-    }
-    path = "/d/select?#{Rack::Utils.build_query(parameters)}"
-    response = http.get(path)
-    JSON.parse(response.body)
-  end
-
-= Binding
-
-  # coderay ruby
-
-  Groonga::Database.open(ARGV[0])
-  entries = Groonga["Entries"]
-
-  matched_records = entries.select do |record|
-    record.description =~ "文字列"
-  end
-  sorted_records = matched_records.sort([["_score", :desc]], :limit => 10)
-  sorted_records.each do |record|
-    [record.score, record.label, record.version, record.description]
-  end
-  matched_records.group("version").each do |grouped_record|
-    [grouped_record._key, grouped_record.n_sub_records]
-  end
-
-= Benchmark
-
-(('tag:center'))Network overhead is larger
-
-  # RT
-
-  Type, Elapsed time
-
-  HTTP client, 0.21s
-  Binding,     0.07s
-
-(('tag:center'))\n
-(('note:Ruby reference manual in Japanese is used'))\n
-(('note:72632 records, 319MB DB, Run only 1 request'))
-
-= FTSE and Ruby
-
-  * Use Groonga as library
-    * Overhead is less than client
-  * Note
-    * How about concurrency?
-    * How about scalability?
-
-= Hint 1 - Concurrency
-
-(('tag:center'))For CPU bound operation
-
-  * Use multiprocessing
-    * Ruby can't use all CPU cores by a process
-    * Check whether library supports multiprocessing\n
-      (('note:(Groonga supports multiprocessing)'))
-
-= Hint 2 - Concurrency
-
-(('tag:center'))For network bound operation
-
-  * Use I/O multiplexing
-    * You can use Cool.io or EventMachine for it\n
-      (('note:(I like Cool.io because I like libev 😃)'))\n
-      (('note:(But I don't like instance_eval API in Cool.io 😞)'))\n
-
-= Hint 3 - Scalability
-
-  * Keep "shared nothing" state\n
-    (('note:(It makes "scale out"-able)'))
-    * Combine sharding and replication for large data
-    * Don't forget overhead for merging shards\n
-      (('note:(It will be CPU bound that isn't good with Ruby)'))
-
-= FTSE and Ruby again
-
-  * Thought about using FTSE from Ruby
-  * Let's think about using Ruby in FTSE
-
-= FTSE characteristic
-
-  * Must
-    * Fast
-  * Nice to have
-    * Flexibility
-
-= Flexibility
+= mruby in Groonga
 
   * Query optimizer
-    * Light operation than FTS
-    * Depends on data\n
-      (('note:(Choose effective index, use table scan and so on)'))
-  * Plugin
+  * Command interface (plan)
+    * High-level interface!
+  * Plugin API (plan)
 
 = Query optimizer
 
   * Plan how to search
+    * It's a bother 😞
+  * Light operation than FTS
+  * Depends on data\n
+    (('note:(Choose effective index, use table scan and so on)'))
 
-= Three Ruby usages
+= Example
+
+  rank < 200 && rank > 100
+
+= Simple impl.
+
+  # image
+  # src = images/range-search-simple.svg
+  # relative_height = 90
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Simple impl.
+
+  * Slow against\n
+    many out of range data
+
+= Optimized impl.
+
+  # image
+  # src = images/range-search-optimized.svg
+  # relative_width = 90
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Is embedding reasonable?
+
+Measure
+
+= Measure
+
+  * mruby overhead
+  * Speed-up by optimization
+
+= Overhead
+
+(('tag:center'))Small overhead: Reasonable😃
+
+  # RT
+
+  (('# conds')), mruby, Elapsed
+
+  1, ○, 0.24ms
+  1, ×, 0.16ms
+  4, ○, 0.45ms
+  4, ×, 0.19ms
+
+= Speed-up
+
+(('tag:center'))Fast for many data:Reasonable😃
+
+  # RT
+
+  (('# records')), mruby, nom mruby
+
+  1000,    0.29ms, 0.31ms
+  10000,   0.31ms, 2.3ms
+  100000,  0.26ms, 21.1ms
+  1000000, 0.26ms, 210.2ms
+
+= Note
+
+  * Embedding needs many works
+    * Write bindings, import mruby your build system and ...
+  * How to test your mruby part?
+    * And how to debug?
+
+= Conclusion
+
+= Conclusion 1
+
+  * Describe three Ruby usages
+    * (('wait'))High-level interface
+    * (('wait'))Glue
+    * (('wait'))Embed
+
+= Conclusion 2
+
+  * High-level interface
+    * Target: Pure Rubyists
+    * Provides lower layer feature to higher layer w/ usable interface
+    * Ruby's flexibility is useful
+
+= Conclusion 3
 
   * Glue
+    * Target:\n
+      Rubyists who can write C/C++
+    * Why: Reuse existing feature
+    * To be fast, do the process in C
+
+= Conclusion 4
+
   * Embed
-  * High-level interface
+    * Target:\n
+      Rubyists who also write C/C++
+    * Why:\n
+      Avoid bother programming by Ruby
 
-= Case study
+= Conclusion 5
 
-Create a distributed full-text search engine based on existing
-full-text search engine written by C
+  * Embed
+    * Is it reasonable for your case?
+    * You need many works
+    * Very powerful\n
+      if your case is reasonable😃
 
-= How to use Ruby? (1)
+= Announcement
 
-Glue
-
-= Glue
-
-Combining existing features
-
-= Existing features
-
-  * Full-text search
-  * (('del:Messaging system'))
-    * Use Ruby for it?
-  * (('del:Node management'))
-    * Use Ruby for it?
-
-= xxx
-
-= Sample application
-
-Droonga
-
-  * Distributed full-text search engine
-  * Requirements
-    * Scalable
-    * Fast
-    * Easy to operate
-
-= Components
-
-  * Service API
-  * Messaging system
-  * Node management
-  * Full-text search engine
-
-= Service API
-
-  * For using Droonga over network
-  * Requirements
-    * Scalable
-    * Extensible
-    * Fast
-
-= Messaging system
-
-  * For processing a task by nodes
-  * Requirements
-    * Scalable
-    * Extensible
-    * Fast
-
-= Full-text search engine
-
-  * For core feature
-  * Requirements
-    * Fast
-
-= Architecture
-
-  * Distributed system is complex
-    * Internode communication
-  * Similar software exists
-    * Make Droonga workable
-      even if it has only 60% features.
-
-= Distributed system
-
-  * Complex
-    * Networking
-    * Messaging system
-    * Node management
-  * Many CPU cores
-
-= Using Ruby
-
-  * Pros
-    * Fast development
-    * Flexible/Extensible system
-  * Cons
-    * Low performance rather than compile type languages such as C
-
-= Trade-off
-
-Think about:
-
-  * Are pros needed?
-  * Are cons acceptable?
-
-= Pros
-
-  * Fast development
-    * Need: Similar software exists
-  * Flexible/Extensible system
-    * Nice to have
-
-= Cons
-
-  * Low performance per node
-    * Acceptable if it is resolved by multiple CPU cores
-      because Droonga assumes that Droonga cluster has many CPU cores
-    * Not CPU things: I/O, Network, ...
-
-= How slow?
-
-Measure!\n
-(('note:Because we are programmer'))\n
-(('note:We should act based on fact rather than anticipation'))\n
-
-= Where measure?
-
-  * Components
-    * Networking
-    * Messaging system
-    * Node management
-
-= Networking
-
-  * xxx
-
-= Glue
-
-  * c
+  * ClearCode Inc.
+    * A silver sponsor
+  * The next Groonga conference
+    * It's held at 11/29

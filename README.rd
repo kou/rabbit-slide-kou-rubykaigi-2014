@@ -56,6 +56,7 @@ Files:
 
   * images/groonga-logo.svg
   * images/rroonga-logo.svg
+  * images/droonga-logo.svg
 
 CC BY 3.0
 
@@ -67,7 +68,7 @@ Files:
 
   * ...
 
-CC BY-SA 
+CC BY-SA 4.0
 
 == For author
 
