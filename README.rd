@@ -30,11 +30,9 @@ Use the followings for notation of the author:
 
 === Images
 
-  * ClearCode Inc. logo
-
 ==== ClearCode Inc. logo
 
-CC BY-SA 3.0
+CC BY-SA 4.0
 
 Author: ClearCode Inc.
 
@@ -62,13 +60,66 @@ CC BY 3.0
 
 Author: The Groonga Project
 
+==== Images that uses Groonga logo
+
+Files:
+
+  * images/droonga-rroonga.svg
+  * images/rroonga-search.svg
+
+CC BY 3.0
+
+Author:
+
+  * Kouhei Sutou
+  * The Groonga Project
+
+==== Images that uses Ruby logo
+
+Files:
+
+  * images/embed.svg
+  * images/high-level-interface.svg
+  * images/high-level-interface-examples.svg
+
+CC BY-SA 2.5
+
+Author:
+
+  * Kouhei Sutou
+  * Yukihiro Matsumoto
+
+==== Images that uses Groonga logo and Ruby logo
+
+Files:
+
+  * images/droonga-mruby.svg
+  * images/embed-examples.svg
+
+CC BY-SA 2.5
+
+Author:
+
+  * Kouhei Sutou
+  * Yukihiro Matsumoto
+  * The Groonga Project
+
 ==== Other images
 
 Files:
 
-  * ...
+  * images/clear-code-is-silver-sponsor.png
+  * images/distributed-full-text-search-engine.svg
+  * images/distributed-full-text-search-engine-components.svg
+  * images/droonga-messaging-system.svg
+  * images/glue-examples.svg
+  * images/glue.svg
+  * images/range-search-optimized.svg
+  * images/range-search-simple.svg
 
 CC BY-SA 4.0
+
+Author: Kouhei Sutou
 
 == For author
 
