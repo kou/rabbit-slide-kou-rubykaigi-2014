@@ -11,17 +11,20 @@
 : date
    2014/09/20
 : allotted-time
-   28m
+   25m
 : theme
    .
 
-= Conclusion
+= Silver sponsor
 
-  * Describe three Ruby usages
-    * High-level interface
-    * Glue
-    * Embed
-  * Put them into your toolbox
+  # image
+  # src = images/clear-code-is-silver-sponsor.png
+  # relative_width = 100
+
+== slide property
+
+: enable-title-on-image
+   false
 
 = Goal
 
@@ -147,14 +150,6 @@ I'm developing Droonga\n
     * "Rapid prototype and measure" feedback loop is helpful
     * Ruby is good at rapid dev.
 
-
-= The current Droonga\nMessaging system
-
-  * It's not good yet 😞
-  * Need more feedback loops
-  * Leaning existing algorithms
-    * BSP, Dryad, CIEL, ...
-
 = Glue
 
 (('tag:center'))Three Ruby usages
@@ -223,7 +218,6 @@ I'm developing Droonga\n
 = FTSE in Droonga
 
   * Must be fast!
-    * (('note:Some bindings don't need to be fast'))
   * CPU bound processing
 
 = For fast Rroonga
@@ -501,5 +495,7 @@ Measure
 
   * ClearCode Inc.
     * A silver sponsor
+    * Is recruiting
+    * Will do readable code workshop
   * The next Groonga conference
     * It's held at 11/29
