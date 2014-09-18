@@ -437,7 +437,7 @@ Measure
 
   # RT
 
-  (('# records')), mruby, nom mruby
+  (('# records')), mruby, no mruby
 
   1000,    0.29ms, 0.31ms
   10000,   0.31ms, 2.3ms
