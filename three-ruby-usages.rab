@@ -367,8 +367,9 @@ I'm developing Droonga\n
 
   * Query optimizer
   * Command interface (plan)
-    * High-level interface!
+    * (('note:Interface and also high-level interface!'))
   * Plugin API (plan)
+    * (('note:Interface!'))
 
 = Query optimizer
 
