@@ -81,6 +81,7 @@ Files:
   * images/embed.svg
   * images/high-level-interface.svg
   * images/high-level-interface-examples.svg
+  * images/query-optimizer.svg
 
 CC BY-SA 2.5
 

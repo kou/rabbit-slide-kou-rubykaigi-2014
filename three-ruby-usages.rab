@@ -373,6 +373,17 @@ I'm developing Droonga\n
 
 = Query optimizer
 
+  # image
+  # src = images/query-optimizer.svg
+  # relative_width = 100
+
+== slide property
+
+: enable-title-on-image
+   false
+
+= Query optimizer
+
   * Plan how to search
     * It's a bother 😞
   * Light operation than FTS
