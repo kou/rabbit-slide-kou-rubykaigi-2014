@@ -7,7 +7,7 @@ Rabbit::Task::Slide.new do |task|
   spec = task.spec
   spec.files += Dir.glob("note.md")
   spec.files += Dir.glob("glossary.csv")
-  # spec.files += Dir.glob("doc/**/*.*")
+  spec.files += Dir.glob("images/*.*")
   # spec.files -= Dir.glob("private/**/*.*")
   spec.add_runtime_dependency("rabbit-theme-clear-code")
 end
